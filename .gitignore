@@ -1,0 +1,5 @@
+computor
+*.o
+a.out
+obj/
+.cache_exists
