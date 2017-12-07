@@ -6,14 +6,14 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/06 17:55:45 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/07 12:34:17 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
 #include "computor.h"
-#include "Equation.h"
+#include "equation.h"
 using namespace std;
 
 #define ERROR_FORMAT	PROGRAM_NAME": Not well formatted"
@@ -27,8 +27,8 @@ int		main(int ac, char **av)
 		return (1);
 	}
 
-	Equation	equation(av[1]);
-	if (!equation.isWellFormatted())
+	equation	equation(av[1]);
+	if (!equation.isCorrect())
 	{
 		cerr << ERROR_FORMAT << endl;
 		return (1);
