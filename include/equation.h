@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:50:12 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/06 18:50:03 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/09 19:58:58 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,30 @@
 
 #include <string>
 
-using namespace std;
-
 class	equation
 {
 	public:
 		equation(const char *av);
+
 		bool	isCorrect();
+		int		solve();
+		double	sqrt(double nb);
+
+		double		x1;
+		double		x2;
+		double		discriminant;
+		double		a;
+		double		b;
+		double		c;
+
 	private:
-		string	str;
-		int		a;
-		int		b;
-		int		c;
+		enum	EquationSide { LEFT, RIGHT };
 
 		bool	parse();
+		void	setVariables(std::string str, bool negative, enum EquationSide side);
+		void	setDiscriminant();
+
+		std::string	str;
 };
 
 /*
