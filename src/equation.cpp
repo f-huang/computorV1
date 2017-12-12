@@ -6,21 +6,26 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/09 20:09:12 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/12 18:45:09 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <regex>
 #include "computor.h"
 #include "equation.h"
+#include "ft_math.h"
 
-#define PATTERN_EQUATION "([xX] *(\\^ *[0-2])?|-?\\d+ *\\* *[xX] *(\\^ *[0-2])?|-?\\d+|-?\\d+ *[xX] *(\\^ *[0-2])?) *([\\+\\-\\=]|$)"
+#define DOUBLE_NUMBER "-?\\d+(\\.\\d+)?"
+#define X_NUMBER "[xX] *(\\^ *\\d+)?"
+#define END_PATTERN "([\\+\\-\\=]|$)"
+#define PATTERN_EQUATION "("X_NUMBER"|"DOUBLE_NUMBER" *\\* *"X_NUMBER"|"DOUBLE_NUMBER"|"DOUBLE_NUMBER" *"X_NUMBER") *"END_PATTERN
 
 #define PATTERN_CONTAINS_X ".*[xX]+.*"
 #define PATTERN_NO_DEGREE ".*[xX]\\^0.*"
-#define PATTERN_FIRST_DEGREE ".*[xX]\\^1.*"
+#define PATTERN_FIRST_DEGREE "(.*[xX]\\^1.*|.*[xX]"END_PATTERN")"
 #define PATTERN_SECOND_DEGREE ".*[xX]\\^2.*"
 
 equation::equation(const char *av)
@@ -35,30 +40,58 @@ equation::equation(const char *av)
 	c = 0;
 	x1 = 0;
 	x2 = 0;
+	degree = 0;
+}
+
+void	equation::findDegree(std::string str)
+{
+	int			pos;
+	int			nb;
+	std::string	tmp;
+
+	if ((pos = str.find('^')) != std::string::npos)
+	{
+		nb = std::stoi(str.substr(pos + 1));
+		if (nb > degree)
+			degree = nb;
+	}
 }
 
 void	equation::setVariables(std::string str, bool negative, enum EquationSide side)
 {
 	std::regex	contains_x(PATTERN_CONTAINS_X);
 	std::regex	is_no_degree(PATTERN_NO_DEGREE);
+	std::regex	is_first_degree(PATTERN_FIRST_DEGREE);
 	std::regex	is_second_degree(PATTERN_SECOND_DEGREE);
 	double		*dest;
 	double		nb;
 
 	nb = 1.0;
+	dest = NULL;
 	if (!std::regex_match(str, contains_x) || std::regex_match(str, is_no_degree))
 		dest = &c;
 	else if (std::regex_match(str, is_second_degree))
+	{
+		degree = degree < 2 ? 2 : degree;
 		dest = &a;
-	else
+	}
+	else if (std::regex_match(str, is_first_degree))
+	{
+		degree = degree < 1 ? 1 : degree;
 		dest = &b;
-	if (std::isdigit(str.front()))
-		nb = std::stod(str);
-	if (negative)
-		nb *= -1;
-	if (side == RIGHT)
-		nb *= -1;
-	*dest += nb;
+	}
+	else
+		findDegree(str);
+	if (dest != NULL)
+	{
+		if (std::isdigit(str.front()))
+			nb = std::stod(str);
+		if (negative)
+			nb *= -1;
+		if (side == RIGHT)
+			nb *= -1;
+		*dest += nb;
+	}
 }
 
 bool	equation::parse()
@@ -76,7 +109,6 @@ bool	equation::parse()
 	side = LEFT;
 	while (iterator != end)
 	{
-		// std::cout << iterator->str() << std::endl;
 		setVariables(iterator->str(), negative, side);
 		switch (iterator->str().back())
 		{
@@ -106,56 +138,43 @@ bool	equation::isCorrect()
 	return (equation::parse());
 }
 
-double	equation::sqrt(double nb)
-{
-	double	i;
-	if (nb < 1)
-		return (0.0);
-	i = 0.0;
-	while (i * i < nb)
-		i++;
-	return (i * i == nb ? i : 0.0);
-}
-
-void	equation::setDiscriminant()
-{
-	discriminant = (b * b) -  4 * a * c;
-}
-
 int		equation::solve()
 {
 	std::regex	contains_x(PATTERN_CONTAINS_X);
 	double		tmp;
 
+	if (degree < 0 || degree > 2)
+		return (SOLUTION_CANNOT_SOLVE_DEGREE);
 	if (!a && !b)
 	{
 		if (c)
-			return (-1);
+			return (SOLUTION_ERROR);
 		else if (!std::regex_match(str, contains_x))
-			return (0);
+			return (SOLUTION_NONE);
 		else
 			return (SOLUTION_INFINITE);
 	}
-	if (!a)
+	else if (!a && b)
 	{
-		if (b != 0)
-			x1 = -c / b ;
-		return (1);
+		x1 = -c / b ;
+		return (SOLUTION_ONE);
 	}
 	else
 	{
-		setDiscriminant();
+		discriminant = ft_math::calculateDiscriminant(a, b, c);
 		if (discriminant == 0)
 		{
 			x1 = -b / (2 * a);
-			return (1);
+			return (SOLUTION_ONE);
 		}
 		else if (discriminant < 0)
-			discriminant *= -1;
-		tmp = sqrt(discriminant);
+			discriminant = ft_math::abs(discriminant);
+		tmp = ft_math::sqrt(discriminant);
+		std::cout << "Reducing : "<< ft_math::reduce(-b - tmp, 2 * a) << std::endl;
+		// std::cout << discriminant << " -> " << tmp << std::endl;
 		x1 = (-b - tmp) / (2 * a);
 		x2 = (-b + tmp) / (2 * a);
-		return (2);
+		return (SOLUTION_TWO);
 	}
 }
 

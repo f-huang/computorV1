@@ -6,7 +6,7 @@
 #    By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/16 23:26:49 by fhuang            #+#    #+#              #
-#    Updated: 2017/12/06 18:49:58 by fhuang           ###   ########.fr        #
+#    Updated: 2017/12/12 16:24:14 by fhuang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ OBJDIR	:=	obj/
 INCDIR	:=	include/
 LIBDIR	:=	lib/
 SRC		:=	main.cpp				\
-			equation.cpp
+			equation.cpp			\
+			ft_math.cpp
 OBJ		:=	$(SRC:%.cpp=$(OBJDIR)%.o)
 INC		:=	-I./$(INCDIR)
 CACHEF	:=	.cache_exists
