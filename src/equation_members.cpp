@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/13 18:56:47 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/13 18:58:10 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	EquationMembers::add(double coef, int power)
 	while (iterator)
 	{
 		if (iterator->power > power)
-			break ;
+			break ;``
 		else if (iterator->power == power)
 		{
 			iterator->coef += coef;
