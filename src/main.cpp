@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/12 18:03:49 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/13 18:57:28 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ static void	explain_results(equation equation, int result)
 static void	print_equation(equation equation)
 {
 	std::cout << "Reduced form: ";
-	if (equation.c)
-		std::cout << (equation.c < 0 ? "- " : "") << ft_math::abs(equation.c) << " * X^0 ";
-	if (equation.b)
-		std::cout << (equation.b < 0 ? "- " : "+ ") << ft_math::abs(equation.b) << " * X^1 ";
-	if (equation.a)
-		std::cout << (equation.a < 0 ? "" : "+ ") << ft_math::abs(equation.a) << " * X^2 ";
-	std::cout << "= 0" << std::endl;
+	// if (equation.c)
+	// 	std::cout << (equation.c < 0 ? "- " : "") << ft_math::abs(equation.c) << " * X^0 ";
+	// if (equation.b)
+	// 	std::cout << (equation.b < 0 ? "- " : "+ ") << ft_math::abs(equation.b) << " * X^1 ";
+	// if (equation.a)
+	// 	std::cout << (equation.a < 0 ? "" : "+ ") << ft_math::abs(equation.a) << " * X^2 ";
+	// std::cout << "= 0" << std::endl;
 	std::cout << "Polynomial degree: " << equation.degree << std::endl;
 }
 

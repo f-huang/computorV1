@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/12 18:45:09 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/13 18:48:16 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ equation::equation(const char *av)
 	str = av;
 	end = std::remove(str.begin(), str.end(), ' ');
 	str.erase(end, str.end());
-	a = 0;
-	b = 0;
-	c = 0;
+	// a = 0;
+	// b = 0;
+	// c = 0;
 	x1 = 0;
 	x2 = 0;
 	degree = 0;
 }
 
-void	equation::findDegree(std::string str)
+void	equation::findDegree(std::string str, int *power)
 {
 	int			pos;
 	int			nb;
@@ -54,6 +54,7 @@ void	equation::findDegree(std::string str)
 		nb = std::stoi(str.substr(pos + 1));
 		if (nb > degree)
 			degree = nb;
+		*power = nb;
 	}
 }
 
@@ -63,26 +64,32 @@ void	equation::setVariables(std::string str, bool negative, enum EquationSide si
 	std::regex	is_no_degree(PATTERN_NO_DEGREE);
 	std::regex	is_first_degree(PATTERN_FIRST_DEGREE);
 	std::regex	is_second_degree(PATTERN_SECOND_DEGREE);
-	double		*dest;
+	// double		*dest;
 	double		nb;
+	int			power;
 
 	nb = 1.0;
-	dest = NULL;
+	// dest = NULL;
 	if (!std::regex_match(str, contains_x) || std::regex_match(str, is_no_degree))
-		dest = &c;
+	{
+		power = 0;
+		// dest = &c;
+	}
 	else if (std::regex_match(str, is_second_degree))
 	{
+		power = 2;
 		degree = degree < 2 ? 2 : degree;
-		dest = &a;
+		// dest = &a;
 	}
 	else if (std::regex_match(str, is_first_degree))
 	{
+		power = 1;
 		degree = degree < 1 ? 1 : degree;
-		dest = &b;
+		// dest = &b;
 	}
 	else
-		findDegree(str);
-	if (dest != NULL)
+		findDegree(str, &power);
+	if (power >= 0 && power <= 2)
 	{
 		if (std::isdigit(str.front()))
 			nb = std::stod(str);
@@ -90,7 +97,9 @@ void	equation::setVariables(std::string str, bool negative, enum EquationSide si
 			nb *= -1;
 		if (side == RIGHT)
 			nb *= -1;
-		*dest += nb;
+		// *dest += nb;
+		// std::cout << nb << " & " << power << std::endl;
+		members.add(nb, power);
 	}
 }
 
@@ -125,7 +134,7 @@ bool	equation::parse()
 		len += iterator->str().length();
 		++iterator;
 	}
-	std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
+	// std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
 	return (len == str.length());
 }
 
@@ -141,20 +150,34 @@ bool	equation::isCorrect()
 int		equation::solve()
 {
 	std::regex	contains_x(PATTERN_CONTAINS_X);
+	EquationMember	*found;
 	double		tmp;
+	double		a;
+	double		b;
+	double		c;
 
 	if (degree < 0 || degree > 2)
 		return (SOLUTION_CANNOT_SOLVE_DEGREE);
-	if (!a && !b)
+	// a = members.find(2);
+	// b = members.find(1);
+	// c = members.find(0);
+	found = members.find(0);
+	c = found ? found->coef : 0.0;
+	found = members.find(1);
+	b = found ? found->coef : 0.0;
+	found = members.find(2);
+	a = found ? found->coef : 0.0;
+	std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
+	if (degree == 0)
 	{
-		if (c)
+		if (members.find(0))
 			return (SOLUTION_ERROR);
 		else if (!std::regex_match(str, contains_x))
 			return (SOLUTION_NONE);
 		else
 			return (SOLUTION_INFINITE);
 	}
-	else if (!a && b)
+	else if (degree == 1)
 	{
 		x1 = -c / b ;
 		return (SOLUTION_ONE);
