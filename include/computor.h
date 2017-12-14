@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:17:09 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 20:20:20 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 21:51:16 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,9 @@
 # define OUTPUT_SOLUTION_TWO ", the two solutions are: \n"
 # define OUTPUT_SOLUTION_INFINITE "Infinite solutions."
 # define OUTPUT_SOLUTION_CANNOT_SOLVE_DEGREE "The polynomial degree is stricly greater than 2, I can't solve."
+
+#define DEBUG_TITLE BOLD "DEBUGGING"RESET
+#define RESULTS_TITLE BOLD "RESULTS"RESET
+
 
 #endif
