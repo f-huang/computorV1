@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:53:58 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 21:57:19 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,11 @@ int		equation::solve()
 			discriminant = ft_math::calculateDiscriminant(a, b, c);
 			if (discriminant != 0)
 			{
+				//TODO:
+				// Check whether √∆ % 1 == 0
+				// If yes -> continue as it is
+				// else -> just display solutions with sqrt and such
+				//			but still check if reducable
 				tmp = ft_math::sqrt(ft_math::abs(discriminant));
 				x1 = ft_math::reduce(-b - tmp, 2 * a);
 				x2 = ft_math::reduce(-b + tmp, 2 * a);
