@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 20:36:44 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 21:48:20 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,80 @@
 #define PATTERN_FIRST_DEGREE "(.*[xX]\\^1.*|.*[xX]"END_PATTERN")"
 #define PATTERN_SECOND_DEGREE ".*[xX]\\^2.*"
 
-equation::equation(const char *av)
+#define DEBUG_DELTA "∆ = b² - 4ac"
+#define DEBUG_FIRST_DEGREE "\tx = "UNDERLINE"-c\n\t"NO_UNDERLINE"     b"
+#define DEBUG_X "\tx1 = "UNDERLINE"-b - √∆"NO_UNDERLINE"    x2 = "UNDERLINE"-b + √∆"NO_UNDERLINE"\n\t        2a             2a"
+#define DEBUG_CANNOT_SOLVE_DEGREE "Only solve equations of degree 0, 1 or 2."
+#define DEBUG_ERROR "Encountered an error."
+#define DEBUG_NO_SOLUTION "No solution possible."
+#define DEBUG_INFINITE "There is an infinity of solution for this equation."
+
+equation::equation(const char *av, bool debug = false)
 {
 	std::string::iterator	end;
 
 	str = av;
 	end = std::remove(str.begin(), str.end(), ' ');
 	str.erase(end, str.end());
+	this->debug = debug;
 	x1 = "";
 	x2 = "";
 	degree = 0;
+	discriminant = 0;
+}
+
+static int	solve_degree_zero(std::string str, double c)
+{
+	std::regex	contains_x(PATTERN_CONTAINS_X);
+
+	if (c)
+		return (SOLUTION_ERROR);
+	else if (!std::regex_match(str, contains_x))
+		return (SOLUTION_NONE);
+	else
+		return (SOLUTION_INFINITE);
+}
+
+void	equation::doDebug()
+{
+	double		a = members.getCoef(2);
+	double		b = members.getCoef(1);
+	double		c = members.getCoef(0);
+	int			tmp;
+
+	std::cout << DEBUG_TITLE <<
+	"\ta = " << a << "; b = " << b << "; c = " << c << std::endl;
+	if (degree == 2)
+	{
+		std::cout <<
+		"\t"DEBUG_DELTA << std::endl <<
+		"\t∆ = " << b << "² - 4 * " << a << " * " << c << std::endl <<
+		"\t∆ = " << b * b << " - " << 4 * a * c << std::endl <<
+		"\t∆ = " << discriminant << std::endl <<
+		"And :\n"DEBUG_X << std::endl <<
+		"So :\n\tx1 = "UNDERLINE"-" << b << " - √" << discriminant << NO_UNDERLINE"      x2 = "UNDERLINE"-" << b << " + √" << discriminant << NO_UNDERLINE"\n" <<
+		"\t        2 * " << a << "                   " << "2 * " << a << std::endl;
+	}
+	else if (degree == 1)
+	{
+		std::cout <<
+		""DEBUG_FIRST_DEGREE << std::endl <<
+		"\tx = "UNDERLINE"-" << c << NO_UNDERLINE << "\n\t" << "     " << b << std::endl;
+	}
+	else if (degree == 0)
+	{
+		tmp = solve_degree_zero(str, c);
+		if (tmp == SOLUTION_ERROR)
+			std::cout << DEBUG_ERROR << std::endl;
+		else if (tmp == SOLUTION_NONE)
+			std::cout << DEBUG_NO_SOLUTION << std::endl;
+		else
+			std::cout << DEBUG_INFINITE << std::endl;
+	}
+	else
+	{
+		std::cout << DEBUG_CANNOT_SOLVE_DEGREE << std::endl;
+	}
 }
 
 static void	findPower(std::string str, int *power)
@@ -126,18 +190,6 @@ bool	equation::isCorrect()
 	return (equation::parse());
 }
 
-static int	solve_degree_zero(std::string str, double c)
-{
-	std::regex	contains_x(PATTERN_CONTAINS_X);
-
-	if (c)
-		return (SOLUTION_ERROR);
-	else if (!std::regex_match(str, contains_x))
-		return (SOLUTION_NONE);
-	else
-		return (SOLUTION_INFINITE);
-}
-
 int		equation::solve()
 {
 	int			ret;
@@ -146,7 +198,6 @@ int		equation::solve()
 	double		b = members.getCoef(1);
 	double		c = members.getCoef(0);
 
-	std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
 	switch (degree)
 	{
 		case 0:
@@ -158,7 +209,6 @@ int		equation::solve()
 			break ;
 		case 2:
 			discriminant = ft_math::calculateDiscriminant(a, b, c);
-			std::cout << "Discriminant = " << discriminant << std::endl;
 			if (discriminant != 0)
 			{
 				tmp = ft_math::sqrt(ft_math::abs(discriminant));
@@ -186,6 +236,8 @@ std::string		equation::getReducedForm()
 	double			abs_coef;
 
 	iterator = members.list;
+	if (!iterator)
+		ret += "0";
 	while (iterator)
 	{
 		abs_coef = ft_math::abs(iterator->coef);

@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 20:51:30 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 21:37:01 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ double	ft_math::remainder(double a, double b)
 
 double	ft_math::calculateDiscriminant(double a, double b, double c)
 {
-	return (b * b  - 4 * a * c);
+	std::cout << std::to_string(a) << std::to_string(b) << std::to_string(c) << std::endl;
+	return ((b * b)  - (4 * a * c));
 }
 
 bool	ft_math::equals(double a, double b)

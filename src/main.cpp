@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:04:48 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 21:24:43 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,26 +108,38 @@ static void	print_results(equation equation, int result)
 
 static void	print_equation(equation equation)
 {
-	std::cout << "Reduced form: " << BOLD << equation.getReducedForm() << RESET << std::endl;
-	std::cout << "Polynomial degree: " << equation.degree << std::endl;
+	std::cout <<
+	RESULTS_TITLE << std::endl <<
+	"Reduced form: " << BOLD << equation.getReducedForm() << RESET << std::endl <<
+	"Polynomial degree: " << equation.degree << std::endl;
 }
 
 int		main(int ac, char **av)
 {
+	bool	debug = false;
+	int			result;
+
 	if (ac != 2)
 	{
-		std::cerr << ERROR_USAGE << std::endl;
-		return (1);
+		if (strcmp(av[1], "-d"))
+		{
+			std::cerr << ERROR_USAGE << std::endl;
+			return (1);
+		}
+		else
+			debug = true;
 	}
 
-	equation	equation(av[1]);
-	int			result;
+	equation	equation(debug ? av[2] : av[1], debug);
+
 	if (!equation.isCorrect())
 	{
 		std::cerr << ERROR_FORMAT << std::endl;
 		return (1);
 	}
 	result = equation.solve();
+	if (debug)
+		equation.doDebug();
 	print_equation(equation);
 	print_results(equation, result);
 	return (0);
