@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 20:16:22 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 20:51:30 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ std::string	ft_math::reduce(double numerator, double denominator)
 	}
 	numerator = (equals(remainder(numerator, 1), 0.0)) ? (int)numerator : numerator;
 	denominator = (equals(remainder(denominator, 1), 0.0)) ? (int)denominator : denominator;
+	if (numerator < 0 && denominator < 0)
+	{
+		numerator *= -1;
+		denominator *= -1;
+	}
 	if (numerator == 0.0 || denominator == 0.0)
 		return ("0");
 	else if (denominator == 1.0)

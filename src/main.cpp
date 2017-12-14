@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 20:48:12 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 21:04:48 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static void	print_solutions(equation equation)
 	size_t	pos2;
 	size_t	length1;
 	size_t	length2;
+	std::string	tmp1;
+	std::string	tmp2;
 
 	pos1 = equation.x1.find('/');
 	pos2 = std::string::npos;
@@ -30,29 +32,41 @@ static void	print_solutions(equation equation)
 	if ((length2 = equation.x2.length()) != 0)
 		pos2 = equation.x2.find('/');
 	std::cout << BOLD"\tx1 = ";
+	tmp1 = equation.x1;
 	if (pos1 != std::string::npos)
-		std::cout << UNDERLINE << std::setw(length1 - pos1) << std::internal << equation.x1.substr(0, pos1);
+	{
+		tmp1 = equation.x1.substr(0, pos1);
+		std::cout << UNDERLINE << std::setw(length1 - pos1) << std::internal << tmp1;
+	}
 	else
 		std::cout << equation.x1;
 	if (equation.discriminant < 0)
 		std::cout << UNDERLINE << "i";
 	if (pos2 != std::string::npos)
 	{
+		tmp2 = equation.x2;
 		std::cout << NO_UNDERLINE"\t\t x2 = ";
 		if (length2 != 0)
-			std::cout << UNDERLINE << std::setw(length2 - pos2) << std::internal << equation.x2.substr(0, pos2);
+		{
+			tmp2 = equation.x2.substr(0, pos2);
+			std::cout << UNDERLINE << std::setw(length2 - pos2) << std::internal << tmp2;
+		}
 		else
 			std::cout << equation.x2;
 		if (equation.discriminant < 0)
 			std::cout << UNDERLINE << "i";
 	}
-	std::cout << NO_UNDERLINE"\n";
+	std::cout << NO_UNDERLINE"\n\t    ";
+	for (int i = 0; i < tmp1.length() - (pos1 != std::string::npos ? equation.x1.substr(pos1 + 1, length1).length() : 0); i++)
+		std::cout << " ";
 	if (pos1 != std::string::npos)
-		std::cout << "\t    " << std::setw(length1 - (length1 - pos1)) << std::internal << equation.x1.substr(pos1 + 1, length1);
+		std::cout << equation.x1.substr(pos1 + 1, length1);
 	if (pos2 != std::string::npos)
 	{
 		std::cout << "\t\t      ";
-		std::cout << std::setw(length2 - (length2 - pos2)) << std::internal << equation.x2.substr(pos2 + 1, length2);
+		for (int i = 0; i < tmp2.length() - equation.x2.substr(pos2 + 1, length2).length(); i++)
+			std::cout << " ";
+		std::cout << equation.x2.substr(pos2 + 1, length2);
 	}
 	std::cout << RESET"\n";
 }
