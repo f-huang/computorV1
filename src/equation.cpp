@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 17:30:42 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 20:36:44 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ equation::equation(const char *av)
 	str = av;
 	end = std::remove(str.begin(), str.end(), ' ');
 	str.erase(end, str.end());
-	x1 = "0";
-	x2 = "0";
+	x1 = "";
+	x2 = "";
 	degree = 0;
 }
 
@@ -158,11 +158,10 @@ int		equation::solve()
 			break ;
 		case 2:
 			discriminant = ft_math::calculateDiscriminant(a, b, c);
+			std::cout << "Discriminant = " << discriminant << std::endl;
 			if (discriminant != 0)
 			{
-				if (discriminant < 0)
-					discriminant = ft_math::abs(discriminant);
-				tmp = ft_math::sqrt(discriminant);
+				tmp = ft_math::sqrt(ft_math::abs(discriminant));
 				x1 = ft_math::reduce(-b - tmp, 2 * a);
 				x2 = ft_math::reduce(-b + tmp, 2 * a);
 				ret = SOLUTION_TWO;
@@ -190,16 +189,15 @@ std::string		equation::getReducedForm()
 	while (iterator)
 	{
 		abs_coef = ft_math::abs(iterator->coef);
-		if (!iterator->power)
+		if (!ret.length())
 		{
 			if (iterator->coef < 0)
 				ret += "-";
 		}
 		else
 			ret += iterator->coef < 0 ? " - " : " + ";
-		if (abs_coef > 1)
-
-			ret += ft_math::double_to_string(ft_math::abs(iterator->coef), 2);
+		if (abs_coef > 1 || iterator->power == 0)
+			ret += ft_math::double_to_string(abs_coef, 2);
 		if (iterator->power)
 			ret += "x";
 		if (iterator->power > 1)
@@ -212,25 +210,3 @@ std::string		equation::getReducedForm()
 	ret += " = 0";
 	return (ret);
 }
-
-/*
-TEST :
-2 = 0
-2 + 2 = 0
-
-x+2 = 0
-x^1 + 2 = 0
-5x+2 = 0
-5 * x + 2 = 0
-5 * 3x + 2 = 0
-5 * x^1 + 2 = 0
-5 * 4x^1 + 2 = 0
-5 * x^1 + 2x^2 = 0
-
-2 + x = 0
-2 + x^1 = 0
-2 + 5x = 0
-2 + 5*x = 0
-2 + 5*x + 2 = 0
-2 + 5*x ^1 = 0
-*/

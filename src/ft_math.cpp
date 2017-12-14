@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 16:51:49 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 20:16:22 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,14 @@ double	ft_math::abs(double nb)
 
 double	ft_math::fmod(double a, double b)
 {
+	if (((int)a / b) == 0)
+		return (-1.0);
 	return (a - b * (int)(a / b));
+}
+
+double	ft_math::remainder(double a, double b)
+{
+	return (a - ((int)(a / b) * b));
 }
 
 double	ft_math::calculateDiscriminant(double a, double b, double c)
@@ -48,12 +55,19 @@ double	ft_math::calculateDiscriminant(double a, double b, double c)
 	return (b * b  - 4 * a * c);
 }
 
+bool	ft_math::equals(double a, double b)
+{
+	a = ((abs(a - (int)a)) < 0.0001) ? (int)a : a;
+	b = ((abs(b - (int)b)) < 0.0001) ? (int)b : b;
+	return (a == b);
+}
+
 std::string	ft_math::double_to_string(double nb, int precision = 2)
 {
 	std::string	tmp;
 	int			pos;
 
-	if (fmod(nb, 1) == 0.0)
+	if (equals(remainder(nb, 1), 0.0))
 		return (std::to_string((int)nb));
 	tmp = std::to_string(nb);
 	pos = tmp.find('.') + 1;
@@ -73,18 +87,20 @@ static int	count_precision(std::string number)
 
 std::string	ft_math::reduce(double numerator, double denominator)
 {
+	static int	numbers[] = {10000, 1000, 500, 100, 60, 50, 40, 20, 15, 10, 9, 6, 5, 4, 3, 2};
+	int			i;
 	std::string	ret;
-	int		numbers[] = {10000, 1000, 500, 100, 60, 50, 40, 20, 15, 10, 9, 6, 5, 4, 3, 2};
-	double	tmp1;
-	double	tmp2;
+	double		tmp1;
+	double		tmp2;
 
-	for (int i = 0; i < 16; i++)
+	i = -1;
+	while (++i < 16 && !equals(numerator, 0.0) && !equals(denominator, 0.0) && !equals(denominator, 1.0))
 	{
-		tmp1 = fmod(numerator, numbers[i]);
-		if (!tmp1)
+		tmp1 = remainder(numerator, numbers[i]);
+		if (equals(tmp1, 0.0))
 		{
-			tmp2 = fmod(denominator, numbers[i]);
-			if (!tmp2)
+			tmp2 = remainder(denominator, numbers[i]);
+			if (equals(tmp2, 0.0))
 			{
 				numerator /= numbers[i];
 				denominator /= numbers[i];
@@ -92,8 +108,12 @@ std::string	ft_math::reduce(double numerator, double denominator)
 			}
 		}
 	}
-	if (denominator == 0)
+	numerator = (equals(remainder(numerator, 1), 0.0)) ? (int)numerator : numerator;
+	denominator = (equals(remainder(denominator, 1), 0.0)) ? (int)denominator : denominator;
+	if (numerator == 0.0 || denominator == 0.0)
 		return ("0");
+	else if (denominator == 1.0)
+		return (double_to_string(numerator));
 	return (count_precision(std::to_string(numerator / denominator)) > 2 ?
 		double_to_string(numerator).append("/").append(double_to_string(denominator)) : double_to_string(numerator/denominator));
 }
