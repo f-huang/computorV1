@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:50:12 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/13 18:44:00 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:37:00 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,20 @@ class	equation
 	public:
 		equation(const char *av);
 
-		bool	isCorrect();
-		int		solve();
-		double	sqrt(double nb);
+		bool			isCorrect();
+		int				solve();
+		std::string		getReducedForm();
 
 		EquationMembers	members;
-		int			degree;
-		double		x1;
-		double		x2;
-		double		discriminant;
-		// double		a;
-		// double		b;
-		// double		c;
+		std::string		x1;
+		std::string		x2;
+		double			discriminant;
+		int				degree;
 
 	private:
 		enum	EquationSide { LEFT, RIGHT };
 
 		bool	parse();
-		void	findDegree(std::string str, int *power);
 		void	setVariables(std::string str, bool negative, enum EquationSide side);
 		void	setDiscriminant();
 

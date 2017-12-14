@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:10:10 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/13 18:34:21 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:24:03 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ class	EquationMembers
 		EquationMember	*list;
 
 		void			add(double coef, int power);
-		EquationMember	*find(int power);
+		void			clean();
+		int				getBiggestPower();
+		double			getCoef(int power);
 };
 
 #endif

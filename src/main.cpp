@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/13 18:58:09 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:32:34 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "equation.h"
 #include "ft_math.h"
 
-static void	explain_results(equation equation, int result)
+static void	print_results(equation equation, int result)
 {
 	std::string	discriminant_type;
 
@@ -51,14 +51,7 @@ static void	explain_results(equation equation, int result)
 
 static void	print_equation(equation equation)
 {
-	std::cout << "Reduced form: ";
-	// if (equation.c)
-	// 	std::cout << (equation.c < 0 ? "- " : "") << ft_math::abs(equation.c) << " * X^0 ";
-	// if (equation.b)
-	// 	std::cout << (equation.b < 0 ? "- " : "+ ") << ft_math::abs(equation.b) << " * X^1 ";
-	// if (equation.a)
-	// 	std::cout << (equation.a < 0 ? "" : "+ ") << ft_math::abs(equation.a) << " * X^2 ";
-	// std::cout << "= 0" << std::endl;
+	std::cout << "Reduced form: " << equation.getReducedForm() << std::endl;
 	std::cout << "Polynomial degree: " << equation.degree << std::endl;
 }
 
@@ -79,6 +72,6 @@ int		main(int ac, char **av)
 	}
 	result = equation.solve();
 	print_equation(equation);
-	explain_results(equation, result);
+	print_results(equation, result);
 	return (0);
 }

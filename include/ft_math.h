@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:56 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/12 18:35:45 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:42:32 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class	ft_math
 		static double	fmod(double a, double b);
 		static double	calculateDiscriminant(double a, double b, double c);
 		static std::string	reduce(double numerator, double denominator);
+		static std::string	double_to_string(double nb, int precision);
 };
 
 #endif

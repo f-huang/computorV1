@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/13 18:58:10 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 16:26:02 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,22 @@ void	EquationMembers::add(double coef, int power)
 
 	iterator = list;
 	prev = list;
-	std::cout << "New -> " << coef << "/" << power << std::endl;
 	while (iterator)
 	{
 		if (iterator->power > power)
-			break ;``
+			break ;
 		else if (iterator->power == power)
 		{
 			iterator->coef += coef;
 			return ;
 		}
 		prev = iterator;
-		std::cout << "o" << std::endl;
 		iterator = iterator->next;
 	}
 	if (prev == list)
 	{
 		toAdd->next = list;
-		list->next = toAdd;
+		list = toAdd;
 	}
 	else if (prev->next == NULL)
 		prev->next = toAdd;
@@ -55,7 +53,7 @@ void	EquationMembers::add(double coef, int power)
 	}
 }
 
-EquationMember	*EquationMembers::find(int power)
+double	EquationMembers::getCoef(int power)
 {
 	EquationMember	*iterator;
 
@@ -63,8 +61,40 @@ EquationMember	*EquationMembers::find(int power)
 	while (iterator)
 	{
 		if (iterator->power == power)
-			return (iterator);
+			return (iterator->coef);
 		iterator = iterator->next;
 	}
-	return (NULL);
+	return (0.0);
+}
+
+int	EquationMembers::getBiggestPower()
+{
+	EquationMember	*iterator;
+
+	iterator = list;
+	while (iterator && iterator->next)
+		iterator = iterator->next;
+	return (iterator ? iterator->power : 0);
+}
+
+void	EquationMembers::clean()
+{
+	EquationMember	*iterator;
+	EquationMember	*prev;
+
+	iterator = list;
+	prev = NULL;
+	while (iterator)
+	{
+		if (iterator->coef == 0.0)
+		{
+			if (!prev)
+				list = iterator->next;
+			else
+				prev->next = iterator->next;
+		}
+		else
+			prev = iterator;
+		iterator = iterator->next;
+	}
 }

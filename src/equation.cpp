@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/13 18:48:16 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/14 17:30:42 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,19 @@ equation::equation(const char *av)
 	str = av;
 	end = std::remove(str.begin(), str.end(), ' ');
 	str.erase(end, str.end());
-	// a = 0;
-	// b = 0;
-	// c = 0;
-	x1 = 0;
-	x2 = 0;
+	x1 = "0";
+	x2 = "0";
 	degree = 0;
 }
 
-void	equation::findDegree(std::string str, int *power)
+static void	findPower(std::string str, int *power)
 {
 	int			pos;
 	int			nb;
-	std::string	tmp;
 
-	if ((pos = str.find('^')) != std::string::npos)
+	if (*power == -1 && (pos = str.find('^')) != std::string::npos)
 	{
 		nb = std::stoi(str.substr(pos + 1));
-		if (nb > degree)
-			degree = nb;
 		*power = nb;
 	}
 }
@@ -64,43 +58,27 @@ void	equation::setVariables(std::string str, bool negative, enum EquationSide si
 	std::regex	is_no_degree(PATTERN_NO_DEGREE);
 	std::regex	is_first_degree(PATTERN_FIRST_DEGREE);
 	std::regex	is_second_degree(PATTERN_SECOND_DEGREE);
-	// double		*dest;
 	double		nb;
 	int			power;
 
 	nb = 1.0;
-	// dest = NULL;
+	power = -1;
 	if (!std::regex_match(str, contains_x) || std::regex_match(str, is_no_degree))
-	{
 		power = 0;
-		// dest = &c;
-	}
-	else if (std::regex_match(str, is_second_degree))
-	{
-		power = 2;
-		degree = degree < 2 ? 2 : degree;
-		// dest = &a;
-	}
 	else if (std::regex_match(str, is_first_degree))
-	{
 		power = 1;
-		degree = degree < 1 ? 1 : degree;
-		// dest = &b;
-	}
-	else
-		findDegree(str, &power);
-	if (power >= 0 && power <= 2)
-	{
-		if (std::isdigit(str.front()))
-			nb = std::stod(str);
-		if (negative)
-			nb *= -1;
-		if (side == RIGHT)
-			nb *= -1;
-		// *dest += nb;
-		// std::cout << nb << " & " << power << std::endl;
-		members.add(nb, power);
-	}
+	else if (std::regex_match(str, is_second_degree))
+		power = 2;
+	if (std::isdigit(str.front()) || str.front() == '-' || str.front() == '+')
+		if ((nb = std::stod(str)) == 0.0)
+			return ;
+	if (negative)
+		nb *= -1;
+	if (side == RIGHT)
+		nb *= -1;
+	findPower(str, &power);
+	members.add(nb, power);
+	// std::cout << str << " : " << nb << " <--> " << power << std::endl;
 }
 
 bool	equation::parse()
@@ -134,7 +112,8 @@ bool	equation::parse()
 		len += iterator->str().length();
 		++iterator;
 	}
-	// std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
+	members.clean();
+	degree = members.getBiggestPower();
 	return (len == str.length());
 }
 
@@ -147,58 +126,91 @@ bool	equation::isCorrect()
 	return (equation::parse());
 }
 
-int		equation::solve()
+static int	solve_degree_zero(std::string str, double c)
 {
 	std::regex	contains_x(PATTERN_CONTAINS_X);
-	EquationMember	*found;
-	double		tmp;
-	double		a;
-	double		b;
-	double		c;
 
-	if (degree < 0 || degree > 2)
-		return (SOLUTION_CANNOT_SOLVE_DEGREE);
-	// a = members.find(2);
-	// b = members.find(1);
-	// c = members.find(0);
-	found = members.find(0);
-	c = found ? found->coef : 0.0;
-	found = members.find(1);
-	b = found ? found->coef : 0.0;
-	found = members.find(2);
-	a = found ? found->coef : 0.0;
-	std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
-	if (degree == 0)
-	{
-		if (members.find(0))
-			return (SOLUTION_ERROR);
-		else if (!std::regex_match(str, contains_x))
-			return (SOLUTION_NONE);
-		else
-			return (SOLUTION_INFINITE);
-	}
-	else if (degree == 1)
-	{
-		x1 = -c / b ;
-		return (SOLUTION_ONE);
-	}
+	if (c)
+		return (SOLUTION_ERROR);
+	else if (!std::regex_match(str, contains_x))
+		return (SOLUTION_NONE);
 	else
+		return (SOLUTION_INFINITE);
+}
+
+int		equation::solve()
+{
+	int			ret;
+	double		tmp;
+	double		a = members.getCoef(2);
+	double		b = members.getCoef(1);
+	double		c = members.getCoef(0);
+
+	std::cout << "a = " << a << "; b = " << b << "; c = " << c << std::endl;
+	switch (degree)
 	{
-		discriminant = ft_math::calculateDiscriminant(a, b, c);
-		if (discriminant == 0)
-		{
-			x1 = -b / (2 * a);
-			return (SOLUTION_ONE);
-		}
-		else if (discriminant < 0)
-			discriminant = ft_math::abs(discriminant);
-		tmp = ft_math::sqrt(discriminant);
-		std::cout << "Reducing : "<< ft_math::reduce(-b - tmp, 2 * a) << std::endl;
-		// std::cout << discriminant << " -> " << tmp << std::endl;
-		x1 = (-b - tmp) / (2 * a);
-		x2 = (-b + tmp) / (2 * a);
-		return (SOLUTION_TWO);
+		case 0:
+			ret = solve_degree_zero(str, c);
+			break ;
+		case 1:
+			x1 = ft_math::reduce(-c, b);
+			ret = SOLUTION_ONE;
+			break ;
+		case 2:
+			discriminant = ft_math::calculateDiscriminant(a, b, c);
+			if (discriminant != 0)
+			{
+				if (discriminant < 0)
+					discriminant = ft_math::abs(discriminant);
+				tmp = ft_math::sqrt(discriminant);
+				x1 = ft_math::reduce(-b - tmp, 2 * a);
+				x2 = ft_math::reduce(-b + tmp, 2 * a);
+				ret = SOLUTION_TWO;
+			}
+			else
+			{
+				x1 = ft_math::reduce(-b, 2 * a);
+				ret = SOLUTION_ONE;
+			}
+			break ;
+		default:
+			ret = SOLUTION_CANNOT_SOLVE_DEGREE;
+			break ;
 	}
+	return (ret);
+}
+
+std::string		equation::getReducedForm()
+{
+	EquationMember	*iterator;
+	std::string		ret;
+	double			abs_coef;
+
+	iterator = members.list;
+	while (iterator)
+	{
+		abs_coef = ft_math::abs(iterator->coef);
+		if (!iterator->power)
+		{
+			if (iterator->coef < 0)
+				ret += "-";
+		}
+		else
+			ret += iterator->coef < 0 ? " - " : " + ";
+		if (abs_coef > 1)
+
+			ret += ft_math::double_to_string(ft_math::abs(iterator->coef), 2);
+		if (iterator->power)
+			ret += "x";
+		if (iterator->power > 1)
+		{
+			ret += "^";
+			ret += std::to_string(iterator->power);
+		}
+		iterator = iterator->next;
+	}
+	ret += " = 0";
+	return (ret);
 }
 
 /*
