@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 15:09:59 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 16:54:55 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ void	fraction::init_fraction_div(std::string str)
 	init_fraction(std::stol(top), std::stol(bot));
 }
 
+fraction::fraction()
+{
+	init_fraction(0L, 1L);
+}
+
+fraction::fraction(double numerator)
+{
+	init_fraction_double(numerator, 1.0);
+}
+
+fraction::fraction(long numerator)
+{
+	init_fraction(numerator, 1L);
+}
+
 fraction::fraction(long numerator, long denominator)
 {
 	init_fraction(numerator, denominator);
@@ -93,9 +108,62 @@ int		fraction::get_gcd()
 {
 	return (ft_math::gcd(numerator, denominator));
 }
-//
-// fraction	fraction::reduce()
-// {
-// 	long	numerator;
-// 	long	denominator;
-// }
+
+double	fraction::get_value()
+{
+	if (denominator == 0)
+		throw std::string(EXCEPTION_PARAMETERS);
+	return (numerator ? numerator / denominator : 0.0);
+}
+
+void	fraction::reduce()
+{
+	int		gcd;
+
+	gcd = get_gcd();
+	if (gcd == 0)
+		gcd = 1;
+	this->numerator = numerator / gcd;
+	this->denominator = denominator / gcd;
+}
+
+void	fraction::add(fraction a)
+{
+	if (this->denominator != a.denominator)
+	{
+		this->denominator *= a.denominator;
+		this->numerator *= a.denominator;
+		a.denominator *= this->denominator;
+		a.numerator *= this->denominator;
+	}
+	this->numerator += a.numerator;
+	this->reduce();
+}
+
+void	fraction::operator+=(const double& nb)
+{
+	add(fraction(nb));
+}
+
+
+void	fraction::operator+=(const long& nb)
+{
+	add(fraction(nb));
+}
+
+void	fraction::operator+=(const fraction& nb)
+{
+	add(nb);
+}
+
+void	fraction::swap(fraction& other)
+{
+	std::swap(this->numerator, other.numerator);
+	std::swap(this->denominator, other.denominator);
+}
+
+fraction&	fraction::operator=(fraction& other)
+{
+	this->swap(other);
+	return (*this);
+}

@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 11:28:07 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 17:17:29 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@ equation_members::equation_members()
 	list = NULL;
 }
 
-void	equation_members::add(double coef, int power)
+void	equation_members::add(fraction& coef, const int power)
 {
 	equation_member	*iterator;
 	equation_member	*prev;
+	std::cout << coef.get_value() << power << std::endl;
 	equation_member	*toAdd = new equation_member(coef, power);
-
+std::cout << "YES" << std::endl;
 	iterator = list;
 	prev = list;
+
 	while (iterator)
 	{
 		if (iterator->power > power)
@@ -51,9 +53,10 @@ void	equation_members::add(double coef, int power)
 		toAdd->next = prev->next;
 		prev->next = toAdd;
 	}
+	std::cout << coef.get_value() << "^" << power << std::endl;
 }
 
-double	equation_members::get_coef(int power)
+fraction	equation_members::get_coef(int power)
 {
 	equation_member	*iterator;
 
@@ -64,7 +67,7 @@ double	equation_members::get_coef(int power)
 			return (iterator->coef);
 		iterator = iterator->next;
 	}
-	return (0.0);
+	return (fraction());
 }
 
 int	equation_members::get_biggest_power()
@@ -86,7 +89,7 @@ void	equation_members::clean()
 	prev = NULL;
 	while (iterator)
 	{
-		if (iterator->coef == 0.0)
+		if (iterator->coef.get_value() == 0.0)
 		{
 			if (!prev)
 				list = iterator->next;

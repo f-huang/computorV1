@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:10:10 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 14:41:03 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 17:17:22 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@
 class equation_member
 {
 	public:
-		equation_member(double coef, int power)
+		equation_member(fraction& coef, const int power)
 		{
+			std::cout << "TOTO";
 			this->coef = coef;
 			this->power = power;
 			next = (equation_member*)0;
 		}
-		double			coef;
+		fraction		coef;
 		int				power;
 		equation_member	*next;
 };
@@ -35,10 +36,10 @@ class	equation_members
 		equation_members();
 		equation_member	*list;
 
-		void			add(double coef, int power);
+		void			add(fraction& coef, const int power);
 		void			clean();
 		int				get_biggest_power();
-		double			get_coef(int power);
+		fraction		get_coef(int power);
 };
 
 #endif

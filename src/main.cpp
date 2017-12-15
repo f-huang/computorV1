@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 15:08:46 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 16:17:44 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,9 @@ int		main(int ac, char **av)
 		std::cerr << ERROR_FORMAT << std::endl;
 		return (1);
 	}
-	result = equation.solve();
-	print_equation(equation);
-	print_results(equation, result);
+	std::cout << "Correct" << std::endl;
+	// result = equation.solve();
+	// print_equation(equation);
+	// print_results(equation, result);
 	return (0);
 }

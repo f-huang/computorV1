@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:33:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 15:09:17 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 16:52:27 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,27 @@
 class	fraction
 {
 	public:
+		fraction();
+		fraction(double numerator);
+		fraction(long numerator);
 		fraction(long numerator, long denominator);
 		fraction(double numerator, double denominator);
 		fraction(std::string str);
 
 		int		get_gcd();
+		double	get_value();
+		void	reduce();
+		void	add(fraction a);
+
+		void	operator+=(const double& nb);
+		void	operator+=(const long& nb);
+		void	operator+=(const fraction& nb);
+		fraction&	operator=(fraction& other);
 
 		long	numerator;
 		long	denominator;
 	private:
+		void	swap(fraction& other);
 		void	init_fraction(long numerator, long denominator);
 		void	init_fraction_double(double numerator, double denominator);
 		void	init_fraction_div(std::string str);

@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 14:44:25 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 16:21:47 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,44 +62,44 @@ static int	solve_degree_zero(std::string str, double c)
 
 void	equation::do_debug()
 {
-	double		a = members.get_coef(2);
-	double		b = members.get_coef(1);
-	double		c = members.get_coef(0);
-	int			tmp;
-
-	std::cout << DEBUG_TITLE << std::endl <<
-	"\ta = " << a << "; b = " << b << "; c = " << c << std::endl;
-	if (degree == 2)
-	{
-		std::cout <<
-		"\t"DEBUG_DELTA << std::endl <<
-		"\t∆ = " << b << "² - 4 * " << a << " * " << c << std::endl <<
-		"\t∆ = " << b * b << " - " << 4 * a * c << std::endl <<
-		"\t∆ = " << discriminant << std::endl <<
-		"And:\n"DEBUG_X << std::endl <<
-		"So:\n\tx1 = "UNDERLINE"-" << b << " - √" << discriminant << NO_UNDERLINE"      x2 = "UNDERLINE"-" << b << " + √" << discriminant << NO_UNDERLINE"\n" <<
-		"\t        2 * " << a << "                   " << "2 * " << a << std::endl;
-	}
-	else if (degree == 1)
-	{
-		std::cout <<
-		""DEBUG_FIRST_DEGREE << std::endl <<
-		"\tx = "UNDERLINE"-" << c << NO_UNDERLINE << "\n\t" << "     " << b << std::endl;
-	}
-	else if (degree == 0)
-	{
-		tmp = solve_degree_zero(str, c);
-		if (tmp == SOLUTION_ERROR)
-			std::cout << DEBUG_ERROR << std::endl;
-		else if (tmp == SOLUTION_NONE)
-			std::cout << DEBUG_NO_SOLUTION << std::endl;
-		else
-			std::cout << DEBUG_INFINITE << std::endl;
-	}
-	else
-	{
-		std::cout << DEBUG_CANNOT_SOLVE_DEGREE << std::endl;
-	}
+	// fraction	a = members.get_coef(2);
+	// fraction	b = members.get_coef(1);
+	// fraction	c = members.get_coef(0);
+	// int			tmp;
+    //
+	// std::cout << DEBUG_TITLE << std::endl <<
+	// "\ta = " << a << "; b = " << b << "; c = " << c << std::endl;
+	// if (degree == 2)
+	// {
+	// 	std::cout <<
+	// 	"\t"DEBUG_DELTA << std::endl <<
+	// 	"\t∆ = " << b << "² - 4 * " << a << " * " << c << std::endl <<
+	// 	"\t∆ = " << b * b << " - " << 4 * a * c << std::endl <<
+	// 	"\t∆ = " << discriminant << std::endl <<
+	// 	"And:\n"DEBUG_X << std::endl <<
+	// 	"So:\n\tx1 = "UNDERLINE"-" << b << " - √" << discriminant << NO_UNDERLINE"      x2 = "UNDERLINE"-" << b << " + √" << discriminant << NO_UNDERLINE"\n" <<
+	// 	"\t        2 * " << a << "                   " << "2 * " << a << std::endl;
+	// }
+	// else if (degree == 1)
+	// {
+	// 	std::cout <<
+	// 	""DEBUG_FIRST_DEGREE << std::endl <<
+	// 	"\tx = "UNDERLINE"-" << c << NO_UNDERLINE << "\n\t" << "     " << b << std::endl;
+	// }
+	// else if (degree == 0)
+	// {
+	// 	tmp = solve_degree_zero(str, c);
+	// 	if (tmp == SOLUTION_ERROR)
+	// 		std::cout << DEBUG_ERROR << std::endl;
+	// 	else if (tmp == SOLUTION_NONE)
+	// 		std::cout << DEBUG_NO_SOLUTION << std::endl;
+	// 	else
+	// 		std::cout << DEBUG_INFINITE << std::endl;
+	// }
+	// else
+	// {
+	// 	std::cout << DEBUG_CANNOT_SOLVE_DEGREE << std::endl;
+	// }
 }
 
 static void	find_power(std::string str, int *power)
@@ -139,7 +139,9 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 	if (side == RIGHT)
 		nb *= -1;
 	find_power(str, &power);
-	members.add(nb, power);
+	fraction tmp = fraction(nb);
+	// std::cout << tmp.get_value();
+	members.add(tmp, power);
 }
 
 bool	equation::parse()
@@ -189,23 +191,23 @@ bool	equation::is_correct()
 
 int		equation::solve()
 {
-	int			ret;
+	int			ret = -1;
 	double		tmp;
-	double		a = members.get_coef(2);
-	double		b = members.get_coef(1);
-	double		c = members.get_coef(0);
+	fraction	a = members.get_coef(2);
+	fraction	b = members.get_coef(1);
+	fraction	c = members.get_coef(0);
 
 	switch (degree)
 	{
 		case 0:
-			ret = solve_degree_zero(str, c);
+			ret = solve_degree_zero(str, c.get_value());
 			break ;
 		case 1:
-			x1 = ft_math::reduce(-c, b);
+			x1 = ft_math::reduce(-c.get_value(), b.get_value());
 			ret = SOLUTION_ONE;
 			break ;
 		case 2:
-			discriminant = ft_math::calculate_discriminant(a, b, c);
+			discriminant = ft_math::calculate_discriminant(a.get_value(), b.get_value(), c.get_value());
 			if (discriminant != 0)
 			{
 				//TODO:
@@ -214,13 +216,13 @@ int		equation::solve()
 				// else -> just display solutions with sqrt and such
 				//			but still check if reducable
 				tmp = ft_math::sqrt(ft_math::abs(discriminant));
-				x1 = ft_math::reduce(-b - tmp, 2 * a);
-				x2 = ft_math::reduce(-b + tmp, 2 * a);
+				x1 = ft_math::reduce(-b.get_value() - tmp, 2 * a.get_value());
+				x2 = ft_math::reduce(-b.get_value() + tmp, 2 * a.get_value());
 				ret = SOLUTION_TWO;
 			}
 			else
 			{
-				x1 = ft_math::reduce(-b, 2 * a);
+				x1 = ft_math::reduce(-b.get_value(), 2 * a.get_value());
 				ret = SOLUTION_ONE;
 			}
 			break ;
@@ -243,14 +245,14 @@ std::string		equation::get_reduced_form()
 		ret += "0";
 	while (iterator)
 	{
-		abs_coef = ft_math::abs(iterator->coef);
+		abs_coef = ft_math::abs((double)iterator->coef.get_value());
 		if (!ret.length())
 		{
-			if (iterator->coef < 0)
+			if (iterator->coef.get_value() < 0)
 				ret += "-";
 		}
 		else
-			ret += iterator->coef < 0 ? " - " : " + ";
+			ret += iterator->coef.get_value() < 0 ? " - " : " + ";
 		if (abs_coef > 1 || iterator->power == 0)
 			ret += ft_math::double_to_string(abs_coef, 2);
 		if (iterator->power)
