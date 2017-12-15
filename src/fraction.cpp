@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 17:25:37 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 18:23:48 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	fraction::init_fraction(long numerator, long denominator)
 		gcd = 1;
 	this->numerator = (numerator * neg) / gcd;
 	this->denominator = (denominator * neg) / gcd;
-	std::cout << this->numerator <<  "/" << this->denominator << std::endl;
+	// std::cout << this->numerator <<  "/" << this->denominator << std::endl;
 }
 
 void	fraction::init_fraction_double(double numerator, double denominator)
@@ -123,37 +123,19 @@ void	fraction::reduce()
 	gcd = get_gcd();
 	if (gcd == 0)
 		gcd = 1;
-	this->numerator = numerator / gcd;
-	this->denominator = denominator / gcd;
-}
+	numerator = numerator / gcd;
+	denominator = denominator / gcd;
 
-void	fraction::add(fraction a)
-{
-	if (this->denominator != a.denominator)
+	if (numerator < 0 && denominator < 0)
 	{
-		this->denominator *= a.denominator;
-		this->numerator *= a.denominator;
-		a.denominator *= this->denominator;
-		a.numerator *= this->denominator;
+		numerator *= -1;
+		denominator *= -1;
 	}
-	this->numerator += a.numerator;
-	this->reduce();
-}
-
-void	fraction::operator+=(const double& nb)
-{
-	add(fraction(nb));
-}
-
-
-void	fraction::operator+=(const long& nb)
-{
-	add(fraction(nb));
-}
-
-void	fraction::operator+=(const fraction& nb)
-{
-	add(nb);
+	else if (numerator < 0 || denominator < 0)
+	{
+		numerator = -(ft_math::abs(denominator));
+		denominator = ft_math::abs(denominator);
+	}
 }
 
 void	fraction::swap(fraction& other)
@@ -166,4 +148,126 @@ fraction&	fraction::operator=(fraction& other)
 {
 	this->swap(other);
 	return (*this);
+}
+
+fraction	fraction::plus(fraction a)
+{
+	fraction	ret = fraction(a.numerator, a.denominator);
+
+	if (ret.denominator != a.denominator)
+	{
+		ret.denominator *= a.denominator;
+		ret.numerator *= a.denominator;
+		a.denominator *= ret.denominator;
+		a.numerator *= ret.denominator;
+	}
+	ret.numerator += a.numerator;
+	ret.reduce();
+	// std::cout << a.numerator << " / " << a.denominator << std::endl;
+	std::cout << ret.numerator << " / " << ret.denominator << std::endl;
+	return (ret);
+}
+
+fraction	fraction::operator+=(const double& nb)
+{
+	return (plus(fraction(nb)));
+}
+
+
+fraction	fraction::operator+=(const long& nb)
+{
+	return (plus(fraction(nb)));
+}
+
+fraction	fraction::operator+=(const fraction& nb)
+{
+	return (plus(nb));
+}
+
+void	fraction::minus(fraction a)
+{
+	if (this->denominator != a.denominator)
+	{
+		this->denominator *= a.denominator;
+		this->numerator *= a.denominator;
+		a.denominator *= this->denominator;
+		a.numerator *= this->denominator;
+	}
+	this->numerator -= a.numerator;
+	this->reduce();
+}
+
+void	fraction::operator-=(const double& nb)
+{
+	minus(fraction(nb));
+}
+
+
+void	fraction::operator-=(const long& nb)
+{
+	minus(fraction(nb));
+}
+
+void	fraction::operator-=(const fraction& nb)
+{
+	minus(nb);
+}
+
+
+void	fraction::div(fraction a)
+{
+	this->numerator *= a.denominator;
+	this->denominator *= a.numerator;
+	this->reduce();
+}
+
+void	fraction::operator/=(const double& nb)
+{
+	div(fraction(nb));
+}
+
+
+void	fraction::operator/=(const long& nb)
+{
+	div(fraction(nb));
+}
+
+void	fraction::operator/=(const fraction& nb)
+{
+	div(nb);
+}
+
+void	fraction::multiply(fraction a)
+{
+	this->numerator *= a.numerator;
+	this->denominator *= a.denominator;
+	this->reduce();
+}
+
+void	fraction::operator*=(const double& nb)
+{
+	multiply(fraction(nb));
+}
+
+
+void	fraction::operator*=(const long& nb)
+{
+	multiply(fraction(nb));
+}
+
+void	fraction::operator*=(const fraction& nb)
+{
+	multiply(nb);
+}
+
+
+void	fraction::negative()
+{
+	this->numerator *= -1;
+	this->reduce();
+}
+
+void	fraction::operator-()
+{
+	negative();
 }

@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 16:21:47 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 18:17:42 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,6 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 		nb *= -1;
 	find_power(str, &power);
 	fraction tmp = fraction(nb);
-	// std::cout << tmp.get_value();
 	members.add(tmp, power);
 }
 
@@ -191,12 +190,14 @@ bool	equation::is_correct()
 
 int		equation::solve()
 {
-	int			ret = -1;
+	int			ret;
 	double		tmp;
 	fraction	a = members.get_coef(2);
 	fraction	b = members.get_coef(1);
 	fraction	c = members.get_coef(0);
 
+	std::cout << "Solving .. with degree = " << degree << std::endl;
+	std::cout << "a = " << a.get_value() << "; b = " << b.get_value() << "; c = " << c.get_value() << std::endl;
 	switch (degree)
 	{
 		case 0:
@@ -208,6 +209,7 @@ int		equation::solve()
 			break ;
 		case 2:
 			discriminant = ft_math::calculate_discriminant(a.get_value(), b.get_value(), c.get_value());
+			std::cout << "∆ = " << discriminant << std::endl;
 			if (discriminant != 0)
 			{
 				//TODO:
@@ -216,8 +218,12 @@ int		equation::solve()
 				// else -> just display solutions with sqrt and such
 				//			but still check if reducable
 				tmp = ft_math::sqrt(ft_math::abs(discriminant));
-				x1 = ft_math::reduce(-b.get_value() - tmp, 2 * a.get_value());
-				x2 = ft_math::reduce(-b.get_value() + tmp, 2 * a.get_value());
+				std::cout << tmp << std::endl;
+				// fraction sol1 =;
+				// if (ft_math::equals(remainder(tmp, 1.0)), 0.0)
+				// x1 = ft_math::reduce(-b.get_value() - tmp, 2 * a.get_value());
+				// std::cout << "x1 = " << x1 << std::endl;
+				// x2 = ft_math::reduce(-b.get_value() + tmp, 2 * a.get_value());
 				ret = SOLUTION_TWO;
 			}
 			else

@@ -6,13 +6,20 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 17:25:09 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 18:29:50 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include <iostream>
 #include "equation_members.h"
+
+equation_member::equation_member(fraction& coef, const int power)
+{
+	this->coef = coef;
+	this->power = power;
+	this->next = (equation_member*)0;
+}
 
 equation_members::equation_members()
 {
@@ -33,7 +40,8 @@ void	equation_members::add(fraction& coef, const int power)
 			break ;
 		else if (iterator->power == power)
 		{
-			iterator->coef += coef;
+			iterator->coef += toAdd->coef;
+			std::cout << "=> " << iterator->coef.numerator << " and " << iterator->coef.denominator << std::endl;
 			return ;
 		}
 		prev = iterator;
@@ -44,8 +52,8 @@ void	equation_members::add(fraction& coef, const int power)
 		toAdd->next = list;
 		list = toAdd;
 	}
-	else if (prev->next == NULL)
-		prev->next = toAdd;
+	// else if (prev->next == NULL)
+		// prev->next = toAdd;
 	else
 	{
 		toAdd->next = prev->next;
