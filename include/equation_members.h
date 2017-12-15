@@ -6,12 +6,14 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:10:10 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 11:28:27 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 14:41:03 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EQUATION_MEMBERS_H
 # define EQUATION_MEMBERS_H
+
+#include "fraction.h"
 
 class equation_member
 {

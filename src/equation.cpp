@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 12:06:16 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 14:44:25 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include "equation.h"
 #include "ft_math.h"
 
-#define DOUBLE_NUMBER "-?\\d+(\\.\\d+)?"
-#define X_NUMBER "[xX] *(\\^ *\\d+)?"
 #define END_PATTERN "([\\+\\-\\=]|$)"
 #define PATTERN_EQUATION "("X_NUMBER"|"DOUBLE_NUMBER" *\\* *"X_NUMBER"|"DOUBLE_NUMBER"|"DOUBLE_NUMBER" *"X_NUMBER") *"END_PATTERN
 
