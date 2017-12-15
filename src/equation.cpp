@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 11:32:41 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 12:06:16 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 		power = 1;
 	else if (std::regex_match(str, is_second_degree))
 		power = 2;
-	if (std::isdigit(str.front()) || str.front() == '-' || str.front() == '+')
+	if (std::isdigit(str.front()) || str.front() == '+' || str.front() == '-')
 		if ((nb = std::stod(str)) == 0.0)
 			return ;
 	if (negative)

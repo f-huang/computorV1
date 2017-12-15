@@ -6,7 +6,7 @@
 #    By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/16 23:26:49 by fhuang            #+#    #+#              #
-#    Updated: 2017/12/13 18:19:10 by fhuang           ###   ########.fr        #
+#    Updated: 2017/12/15 11:57:02 by fhuang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBDIR	:=	lib/
 SRC		:=	main.cpp				\
 			equation.cpp			\
 			equation_members.cpp	\
+			fraction.cpp			\
 			ft_math.cpp
 OBJ		:=	$(SRC:%.cpp=$(OBJDIR)%.o)
 INC		:=	-I./$(INCDIR)
