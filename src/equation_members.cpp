@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 17:17:29 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 17:25:09 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,10 @@ void	equation_members::add(fraction& coef, const int power)
 {
 	equation_member	*iterator;
 	equation_member	*prev;
-	std::cout << coef.get_value() << power << std::endl;
 	equation_member	*toAdd = new equation_member(coef, power);
-std::cout << "YES" << std::endl;
+
 	iterator = list;
 	prev = list;
-
 	while (iterator)
 	{
 		if (iterator->power > power)
@@ -53,7 +51,6 @@ std::cout << "YES" << std::endl;
 		toAdd->next = prev->next;
 		prev->next = toAdd;
 	}
-	std::cout << coef.get_value() << "^" << power << std::endl;
 }
 
 fraction	equation_members::get_coef(int power)

@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:10:10 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 17:17:22 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 17:24:38 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ class equation_member
 	public:
 		equation_member(fraction& coef, const int power)
 		{
-			std::cout << "TOTO";
 			this->coef = coef;
 			this->power = power;
 			next = (equation_member*)0;

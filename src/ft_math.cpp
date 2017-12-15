@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 14:35:54 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 17:24:05 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		ft_math::gcd(long a, long b)
 {
 	a = abs(a);
 	b = abs(b);
-	while (a != b)
+	while (a && b && a != b)
 	{
 		if (a > b)
 			a -= b;
