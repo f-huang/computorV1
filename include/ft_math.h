@@ -21,7 +21,7 @@ class	ft_math
 		static double	abs(double nb);
 		static double	fmod(double a, double b);
 		static double	remainder(double a, double b);
-		static double	calculateDiscriminant(double a, double b, double c);
+		static double	calculate_discriminant(double a, double b, double c);
 		static bool		equals(double a, double b);
 		static std::string	reduce(double numerator, double denominator);
 		static std::string	double_to_string(double nb, int precision);

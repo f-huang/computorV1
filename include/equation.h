@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:50:12 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:20:16 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 11:32:09 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@ class	equation
 	public:
 		equation(const char *av, bool debug);
 
-		bool			isCorrect();
-		void			doDebug();
+		bool			is_correct();
 		int				solve();
-		std::string		getReducedForm();
+		std::string		get_reduced_form();
 
-		EquationMembers	members;
+		equation_members	members;
 		std::string		x1;
 		std::string		x2;
 		bool			debug;
@@ -34,11 +33,12 @@ class	equation
 		int				degree;
 
 	private:
-		enum	EquationSide { LEFT, RIGHT };
+		enum	e_equation_side { LEFT, RIGHT };
 
 		bool	parse();
-		void	setVariables(std::string str, bool negative, enum EquationSide side);
-		void	setDiscriminant();
+		void	do_debug();
+		void	set_variables(std::string str, bool negative, enum e_equation_side side);
+		void	set_discriminant();
 
 		std::string	str;
 };

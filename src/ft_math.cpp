@@ -6,26 +6,26 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:52:23 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 11:24:42 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "ft_math.h"
 
-static bool	closeEnough(double a, double b) {
+static bool	close_enough(double a, double b) {
 	return (ft_math::abs(a - b) < .001);
 }
 
-static double	betterGuess(double x, double g) {
+static double	better_guess(double x, double g) {
 	return ((g + x/g) / 2);
 }
 
 static double	test(double x, double g) {
-	if (closeEnough(x/g, g))
+	if (close_enough(x/g, g))
 		return (g);
 	else
-		return (test(x, betterGuess(x, g)));
+		return (test(x, better_guess(x, g)));
 }
 
 double	ft_math::sqrt(double nb)
@@ -50,7 +50,7 @@ double	ft_math::remainder(double a, double b)
 	return (a - ((int)(a / b) * b));
 }
 
-double	ft_math::calculateDiscriminant(double a, double b, double c)
+double	ft_math::calculate_discriminant(double a, double b, double c)
 {
 	return ((b * b)  - (4 * a * c));
 }

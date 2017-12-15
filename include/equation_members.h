@@ -6,37 +6,37 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:10:10 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 16:24:03 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 11:28:27 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EQUATION_MEMBERS_H
 # define EQUATION_MEMBERS_H
 
-class EquationMember
+class equation_member
 {
 	public:
-		EquationMember(double coef, int power)
+		equation_member(double coef, int power)
 		{
 			this->coef = coef;
 			this->power = power;
-			next = (EquationMember*)0;
+			next = (equation_member*)0;
 		}
 		double			coef;
 		int				power;
-		EquationMember	*next;
+		equation_member	*next;
 };
 
-class	EquationMembers
+class	equation_members
 {
 	public:
-		EquationMembers();
-		EquationMember	*list;
+		equation_members();
+		equation_member	*list;
 
 		void			add(double coef, int power);
 		void			clean();
-		int				getBiggestPower();
-		double			getCoef(int power);
+		int				get_biggest_power();
+		double			get_coef(int power);
 };
 
 #endif

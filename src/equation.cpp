@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:57:19 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 11:32:41 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ static int	solve_degree_zero(std::string str, double c)
 		return (SOLUTION_INFINITE);
 }
 
-void	equation::doDebug()
+void	equation::do_debug()
 {
-	double		a = members.getCoef(2);
-	double		b = members.getCoef(1);
-	double		c = members.getCoef(0);
+	double		a = members.get_coef(2);
+	double		b = members.get_coef(1);
+	double		c = members.get_coef(0);
 	int			tmp;
 
 	std::cout << DEBUG_TITLE << std::endl <<
@@ -104,7 +104,7 @@ void	equation::doDebug()
 	}
 }
 
-static void	findPower(std::string str, int *power)
+static void	find_power(std::string str, int *power)
 {
 	int			pos;
 	int			nb;
@@ -116,7 +116,7 @@ static void	findPower(std::string str, int *power)
 	}
 }
 
-void	equation::setVariables(std::string str, bool negative, enum EquationSide side)
+void	equation::set_variables(std::string str, bool negative, enum e_equation_side side)
 {
 	std::regex	contains_x(PATTERN_CONTAINS_X);
 	std::regex	is_no_degree(PATTERN_NO_DEGREE);
@@ -140,7 +140,7 @@ void	equation::setVariables(std::string str, bool negative, enum EquationSide si
 		nb *= -1;
 	if (side == RIGHT)
 		nb *= -1;
-	findPower(str, &power);
+	find_power(str, &power);
 	members.add(nb, power);
 }
 
@@ -152,14 +152,14 @@ bool	equation::parse()
 
 	size_t				len;
 	bool				negative;
-	enum EquationSide	side;
+	enum e_equation_side	side;
 
 	len = 0;
 	negative = false;
 	side = LEFT;
 	while (iterator != end)
 	{
-		setVariables(iterator->str(), negative, side);
+		set_variables(iterator->str(), negative, side);
 		switch (iterator->str().back())
 		{
 			case '=' :
@@ -176,11 +176,11 @@ bool	equation::parse()
 		++iterator;
 	}
 	members.clean();
-	degree = members.getBiggestPower();
+	degree = members.get_biggest_power();
 	return (len == str.length());
 }
 
-bool	equation::isCorrect()
+bool	equation::is_correct()
 {
 	int		pos;
 
@@ -193,9 +193,9 @@ int		equation::solve()
 {
 	int			ret;
 	double		tmp;
-	double		a = members.getCoef(2);
-	double		b = members.getCoef(1);
-	double		c = members.getCoef(0);
+	double		a = members.get_coef(2);
+	double		b = members.get_coef(1);
+	double		c = members.get_coef(0);
 
 	switch (degree)
 	{
@@ -207,7 +207,7 @@ int		equation::solve()
 			ret = SOLUTION_ONE;
 			break ;
 		case 2:
-			discriminant = ft_math::calculateDiscriminant(a, b, c);
+			discriminant = ft_math::calculate_discriminant(a, b, c);
 			if (discriminant != 0)
 			{
 				//TODO:
@@ -230,12 +230,13 @@ int		equation::solve()
 			ret = SOLUTION_CANNOT_SOLVE_DEGREE;
 			break ;
 	}
+	debug ? do_debug() : (void)debug;
 	return (ret);
 }
 
-std::string		equation::getReducedForm()
+std::string		equation::get_reduced_form()
 {
-	EquationMember	*iterator;
+	equation_member	*iterator;
 	std::string		ret;
 	double			abs_coef;
 

@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 16:26:02 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 11:28:07 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 #include <iostream>
 #include "equation_members.h"
 
-EquationMembers::EquationMembers()
+equation_members::equation_members()
 {
 	list = NULL;
 }
 
-void	EquationMembers::add(double coef, int power)
+void	equation_members::add(double coef, int power)
 {
-	EquationMember	*iterator;
-	EquationMember	*prev;
-	EquationMember	*toAdd = new EquationMember(coef, power);
+	equation_member	*iterator;
+	equation_member	*prev;
+	equation_member	*toAdd = new equation_member(coef, power);
 
 	iterator = list;
 	prev = list;
@@ -53,9 +53,9 @@ void	EquationMembers::add(double coef, int power)
 	}
 }
 
-double	EquationMembers::getCoef(int power)
+double	equation_members::get_coef(int power)
 {
-	EquationMember	*iterator;
+	equation_member	*iterator;
 
 	iterator = list;
 	while (iterator)
@@ -67,9 +67,9 @@ double	EquationMembers::getCoef(int power)
 	return (0.0);
 }
 
-int	EquationMembers::getBiggestPower()
+int	equation_members::get_biggest_power()
 {
-	EquationMember	*iterator;
+	equation_member	*iterator;
 
 	iterator = list;
 	while (iterator && iterator->next)
@@ -77,10 +77,10 @@ int	EquationMembers::getBiggestPower()
 	return (iterator ? iterator->power : 0);
 }
 
-void	EquationMembers::clean()
+void	equation_members::clean()
 {
-	EquationMember	*iterator;
-	EquationMember	*prev;
+	equation_member	*iterator;
+	equation_member	*prev;
 
 	iterator = list;
 	prev = NULL;

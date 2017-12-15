@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:24:43 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/15 11:27:47 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void	print_equation(equation equation)
 {
 	std::cout <<
 	RESULTS_TITLE << std::endl <<
-	"Reduced form: " << BOLD << equation.getReducedForm() << RESET << std::endl <<
+	"Reduced form: " << BOLD << equation.get_reduced_form() << RESET << std::endl <<
 	"Polynomial degree: " << equation.degree << std::endl;
 }
 
@@ -132,14 +132,12 @@ int		main(int ac, char **av)
 
 	equation	equation(debug ? av[2] : av[1], debug);
 
-	if (!equation.isCorrect())
+	if (!equation.is_correct())
 	{
 		std::cerr << ERROR_FORMAT << std::endl;
 		return (1);
 	}
 	result = equation.solve();
-	if (debug)
-		equation.doDebug();
 	print_equation(equation);
 	print_results(equation, result);
 	return (0);
