@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 17:13:03 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 18:26:08 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ std::string	fraction::to_string()
 	std::string	ret;
 
 	ret = std::to_string(this->numerator);
-	if (this->denominator < 0 || this->denominator > 1)
+	if (this->numerator && (this->denominator < 0 || this->denominator > 1))
 	{
 		ret += " / ";
 		ret += std::to_string(this->denominator);

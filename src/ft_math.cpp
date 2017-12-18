@@ -6,31 +6,29 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 16:50:03 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 18:20:07 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "ft_math.h"
 
-static bool	close_enough(double a, double b) {
-	return (ft_math::abs(a - b) < .001);
-}
-
-static double	better_guess(double x, double g) {
-	return ((g + x/g) / 2);
-}
-
-static double	test(double x, double g) {
-	if (close_enough(x/g, g))
-		return (g);
-	else
-		return (test(x, better_guess(x, g)));
-}
-
 double	ft_math::sqrt(double nb)
 {
-	return test(nb, 1);
+	double	res;
+	double	x;
+	int		i;
+
+	if (nb < 1)
+		return (1);
+	i = -1;
+	x = 1;
+	while (++i < 100)
+	{
+		res = (x + (nb / x)) / 2;
+		x = res;
+	}
+	return (res);
 }
 
 double	ft_math::abs(double nb)

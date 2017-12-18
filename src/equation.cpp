@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 17:14:42 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 18:30:39 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "ft_math.h"
 
 #define END_PATTERN "([\\+\\-\\=]|$)"
-#define PATTERN_EQUATION "("X_NUMBER"|"DOUBLE_NUMBER" *\\* *"X_NUMBER"|"DOUBLE_NUMBER"|"DOUBLE_NUMBER" *"X_NUMBER") *"END_PATTERN
+#define PATTERN_EQUATION "(\\-?"X_NUMBER"|"DOUBLE_NUMBER" *\\* *"X_NUMBER"|"DOUBLE_NUMBER"|"DOUBLE_NUMBER""X_NUMBER") *"END_PATTERN
 
 #define PATTERN_CONTAINS_X ".*[xX]+.*"
 #define PATTERN_NO_DEGREE ".*[xX]\\^0.*"
@@ -132,8 +132,12 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 	else if (std::regex_match(str, is_second_degree))
 		power = 2;
 	if (std::isdigit(str.front()) || str.front() == '+' || str.front() == '-')
-		if ((nb = std::stod(str)) == 0.0)
+	{
+		if (str.front() == '-' && !std::isdigit(str[1]))
+			nb = -1.0;
+		else if (((!std::isdigit(str.front()) && std::isdigit(str[1])) || std::isdigit(str.front())) && (nb = std::stod(str)) == 0.0)
 			return ;
+	}
 	if (negative)
 		nb *= -1;
 	if (side == RIGHT)
@@ -191,19 +195,28 @@ bool	equation::is_correct()
 void	equation::solve_two_solutions(fraction a, fraction b, fraction c)
 {
 	double		sqrt_value = ft_math::sqrt(ft_math::abs(discriminant));
+	std::string	delta = std::to_string(ft_math::abs(discriminant));
 	fraction	bot(2 * a);
 	fraction	top_left(-b);
+	fraction	left = top_left / bot;
 
-	if (ft_math::equals(ft_math::remainder(sqrt_value, 1.0), 0.0))
+	if (ft_math::remainder(sqrt_value, 1.0) == 0.0)
 	{
-		sqrt_value = (int)sqrt_value;
-		x1 = ((top_left - fraction(sqrt_value)) / (bot)).to_string();
-		x2 = ((top_left + fraction(sqrt_value)) / (bot)).to_string();
+		x1 = ((top_left - fraction(sqrt_value)) / (bot)).to_string() + (discriminant < 0 ? "i" : "");
+		x2 = ((top_left + fraction(sqrt_value)) / (bot)).to_string() + (discriminant < 0 ? "i" : "");
 	}
 	else
 	{
-		x1 = (top_left / bot).to_string() + " - √" + std::to_string(discriminant) + " / " + (bot).to_string();
-		x2 = (top_left / bot).to_string() + " + √" + std::to_string(discriminant) + " / " + (bot).to_string();
+		if (left.denominator != bot.get_value())
+		{
+			x1 = (top_left / bot).to_string() + " - " + (discriminant < 0 ? "i" : "") + "√" + delta + " / " + (bot).to_string();
+			x2 = (top_left / bot).to_string() + " + " + (discriminant < 0 ? "i" : "") + "√" + delta + " / " + (bot).to_string();
+		}
+		else
+		{
+			x1 = "(" + std::to_string(top_left.numerator) + " - " + (discriminant < 0 ? "i" : "") + "√" + delta + ") / " + (bot).to_string();
+			x2 = "(" + std::to_string(top_left.numerator) + " + " + (discriminant < 0 ? "i" : "") + "√" + delta + ") / " + (bot).to_string();
+		}
 	}
 }
 
@@ -214,8 +227,6 @@ int		equation::solve()
 	fraction	b = members.get_coef(1);
 	fraction	c = members.get_coef(0);
 
-	std::cout << "Solving .. with degree = " << degree << std::endl;
-	std::cout << "a = " << a.get_value() << "; b = " << b.get_value() << "; c = " << c.get_value() << std::endl;
 	switch (degree)
 	{
 		case 0:
@@ -227,11 +238,9 @@ int		equation::solve()
 			break ;
 		case 2:
 			discriminant = ft_math::calculate_discriminant(a.get_value(), b.get_value(), c.get_value());
-			std::cout << "∆ = " << discriminant << std::endl;
 			if (discriminant != 0)
 			{
 				solve_two_solutions(a, b, c);
-				std::cout << "x1 = " << x1 <<  " && x2 = " << x2 << std::endl;
 				ret = SOLUTION_TWO;
 			}
 			else

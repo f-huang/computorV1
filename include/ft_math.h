@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:56 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 15:03:30 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 17:58:52 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_MATH
 
 #define DOUBLE_NUMBER "-?\\d+(\\.\\d+)?"
-#define FRACTION_NUMBER DOUBLE_NUMBER"/"DOUBLE_NUMBER
+#define FRACTION_NUMBER DOUBLE_NUMBER" */ *"DOUBLE_NUMBER
 #define X_NUMBER "[xX] *(\\^ *\\d+)?"
 
 class	ft_math
