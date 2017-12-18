@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 16:10:05 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 17:26:16 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,60 +18,11 @@
 #include "ft_math.h"
 #include "fraction.h"
 
-static void	print_solutions(equation equation)
+static void	print_solutions(equation equation, int result)
 {
-	size_t	pos1;
-	size_t	pos2;
-	size_t	length1;
-	size_t	length2;
-	std::string	tmp1;
-	std::string	tmp2;
-
-	pos1 = equation.x1.find('/');
-	pos2 = std::string::npos;
-	length1 = equation.x1.length();
-	if ((length2 = equation.x2.length()) != 0)
-		pos2 = equation.x2.find('/');
-	// std::cout << BOLD"\tx1 = ";
-	// tmp1 = equation.x1;
-	// if (pos1 != std::string::npos)
-	// {
-	// 	tmp1 = equation.x1.substr(0, pos1);
-	// 	std::cout << UNDERLINE << std::setw(length1 - pos1) << std::internal << tmp1;
-	// }
-	// else
-	// 	std::cout << equation.x1;
-	// if (equation.discriminant < 0)
-	// 	std::cout << UNDERLINE << "i";
-	// if (pos2 != std::string::npos)
-	// {
-	// 	tmp2 = equation.x2;
-	// 	std::cout << NO_UNDERLINE"\t\t x2 = ";
-	// 	if (length2 != 0)
-	// 	{
-	// 		tmp2 = equation.x2.substr(0, pos2);
-	// 		std::cout << UNDERLINE << std::setw(length2 - pos2) << std::internal << tmp2;
-	// 	}
-	// 	else
-	// 		std::cout << equation.x2;
-	// 	if (equation.discriminant < 0)
-	// 		std::cout << UNDERLINE << "i";
-	// }
-	// std::cout << NO_UNDERLINE"\n\t    ";
-	// if (tmp1.length() - (pos1 != std::string::npos ? equation.x1.substr(pos1 + 1, length1).length() : 0))
-	// for (int i = 0; i < tmp1.length() - (pos1 != std::string::npos ? equation.x1.substr(pos1 + 1, length1).length() : 0); i++)
-	// 	std::cout << " ";
-	// if (pos1 != std::string::npos)
-	// 	std::cout << equation.x1.substr(pos1 + 1, length1);
-	// if (pos2 != std::string::npos)
-	// {
-	// 	std::cout << "\t\t      ";
-	// 	if (tmp2.length() - equation.x2.substr(pos2 + 1, length2).length())
-	// 	for (int i = 0; i < tmp2.length() - equation.x2.substr(pos2 + 1, length2).length(); i++)
-	// 		std::cout << " ";
-	// 	std::cout << equation.x2.substr(pos2 + 1, length2);
-	// }
-	std::cout << RESET"\n";
+	std::cout << "x1 = " << equation.x1 << std::endl;
+	if (result == SOLUTION_TWO)
+		std::cout << "x2 = " << equation.x2 << std::endl;
 }
 
 static void	print_results(equation equation, int result)
@@ -87,18 +38,16 @@ static void	print_results(equation equation, int result)
 			std::cout << OUTPUT_SOLUTION_NONE << std::endl;
 			break ;
 		case SOLUTION_ONE :
-			std::cout << OUTPUT_SOLUTION_ONE;
-			print_solutions(equation);
+			std::cout << (equation.discriminant == UNDEFINED ? "" : "Discriminant is "BOLD"null"NO_BOLD". ") << OUTPUT_SOLUTION_ONE;
+			print_solutions(equation, result);
 			break ;
 		case SOLUTION_TWO :
 			if (equation.discriminant < 0)
 				discriminant_type = "strictly negative";
-			else if (equation.discriminant == 0)
-				discriminant_type = "null";
 			else
 				discriminant_type = "strictly positive";
-			std::cout << "Discriminant is " << discriminant_type << OUTPUT_SOLUTION_TWO;
-			print_solutions(equation);
+			std::cout << "Discriminant is strictly " BOLD << (equation.discriminant < 0 ? "negative" : "positive") << NO_BOLD OUTPUT_SOLUTION_TWO;
+			print_solutions(equation, result);
 			break ;
 		case SOLUTION_INFINITE :
 			std::cout << OUTPUT_SOLUTION_INFINITE << std::endl;

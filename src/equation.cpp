@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 16:26:50 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 17:14:42 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ equation::equation(const char *av, bool debug = false)
 	x1 = "";
 	x2 = "";
 	degree = 0;
-	discriminant = 0;
+	discriminant = UNDEFINED;
 }
 
 static int	solve_degree_zero(std::string str, double c)
@@ -194,7 +194,6 @@ void	equation::solve_two_solutions(fraction a, fraction b, fraction c)
 	fraction	bot(2 * a);
 	fraction	top_left(-b);
 
-	std::cout << sqrt_value << std::endl;
 	if (ft_math::equals(ft_math::remainder(sqrt_value, 1.0), 0.0))
 	{
 		sqrt_value = (int)sqrt_value;
@@ -203,8 +202,8 @@ void	equation::solve_two_solutions(fraction a, fraction b, fraction c)
 	}
 	else
 	{
-		x1 = (top_left / bot).to_string() + " - √∆ / " + (bot).to_string();
-		x2 = (top_left / bot).to_string() + " + √∆ / " + (bot).to_string();
+		x1 = (top_left / bot).to_string() + " - √" + std::to_string(discriminant) + " / " + (bot).to_string();
+		x2 = (top_left / bot).to_string() + " + √" + std::to_string(discriminant) + " / " + (bot).to_string();
 	}
 }
 

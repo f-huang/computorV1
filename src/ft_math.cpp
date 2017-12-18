@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 17:49:59 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 16:50:03 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,42 +123,4 @@ long	ft_math::pow(long nb, unsigned long power)
 		return (tmp * tmp);
 	else
 		return (nb * tmp * tmp);
-}
-
-std::string	ft_math::reduce(double numerator, double denominator)
-{
-	static int	numbers[] = {10000, 1000, 500, 100, 60, 50, 40, 20, 15, 10, 9, 6, 5, 4, 3, 2};
-	int			i;
-	std::string	ret;
-	double		tmp1;
-	double		tmp2;
-
-	i = -1;
-	while (++i < 16 && !equals(numerator, 0.0) && !equals(denominator, 0.0) && !equals(denominator, 1.0))
-	{
-		tmp1 = remainder(numerator, numbers[i]);
-		if (equals(tmp1, 0.0))
-		{
-			tmp2 = remainder(denominator, numbers[i]);
-			if (equals(tmp2, 0.0))
-			{
-				numerator /= numbers[i];
-				denominator /= numbers[i];
-				i = 0;
-			}
-		}
-	}
-	numerator = (equals(remainder(numerator, 1), 0.0)) ? (int)numerator : numerator;
-	denominator = (equals(remainder(denominator, 1), 0.0)) ? (int)denominator : denominator;
-	if (numerator < 0 && denominator < 0)
-	{
-		numerator *= -1;
-		denominator *= -1;
-	}
-	if (numerator == 0.0 || denominator == 0.0)
-		return ("0");
-	else if (denominator == 1.0)
-		return (double_to_string(numerator));
-	return (count_precision(numerator / denominator) > 2 ?
-		double_to_string(numerator).append("/").append(double_to_string(denominator)) : double_to_string(numerator/denominator));
 }

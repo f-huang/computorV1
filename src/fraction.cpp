@@ -6,12 +6,13 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 16:11:36 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 17:13:03 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <regex>
+#include "computor.h"
 #include "ft_math.h"
 #include "fraction.h"
 

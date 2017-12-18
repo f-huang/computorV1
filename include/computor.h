@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:17:09 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 16:21:44 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 16:35:25 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define COMPUTOR_H
 
 # define PROGRAM_NAME "computor"
+
+# define UNDEFINED 174
 
 # define SOLUTION_ERROR -1
 # define SOLUTION_NONE 0
