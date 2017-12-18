@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:33:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 18:17:32 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 13:07:36 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,32 @@ class	fraction
 		fraction(double numerator, double denominator);
 		fraction(std::string str);
 
-		int		get_gcd();
-		double	get_value();
-		void	reduce();
+		int			get_gcd();
+		double		get_value();
+		void		reduce();
 		fraction	plus(fraction a);
-		void	minus(fraction a);
-		void	div(fraction a);
-		void	multiply(fraction a);
-		void	negative();
+		fraction	minus(fraction a);
+		fraction	divide(fraction a);
+		fraction	multiply(fraction a);
 
-		void	operator-();
-		fraction	operator+=(const double& nb);
-		fraction	operator+=(const long& nb);
-		fraction	operator+=(const fraction& nb);
-		void	operator-=(const double& nb);
-		void	operator-=(const long& nb);
-		void	operator-=(const fraction& nb);
-		void	operator/=(const double& nb);
-		void	operator/=(const long& nb);
-		void	operator/=(const fraction& nb);
-		void	operator*=(const double& nb);
-		void	operator*=(const long& nb);
-		void	operator*=(const fraction& nb);
+		fraction	operator+(const double& nb);
+		fraction	operator+(const long& nb);
+		fraction	operator+(const fraction& nb);
+		fraction	operator-(const double& nb);
+		fraction	operator-(const long& nb);
+		fraction	operator-(const fraction& nb);
+		void		operator+=(const double& nb);
+		void		operator+=(const long& nb);
+		void		operator+=(const fraction& nb);
+		void		operator-=(const double& nb);
+		void		operator-=(const long& nb);
+		void		operator-=(const fraction& nb);
+		void		operator/=(const double& nb);
+		void		operator/=(const long& nb);
+		void		operator/=(const fraction& nb);
+		void		operator*=(const double& nb);
+		void		operator*=(const long& nb);
+		void		operator*=(const fraction& nb);
 
 		fraction&	operator=(fraction& other);
 
