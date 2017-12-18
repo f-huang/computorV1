@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:33:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 13:07:36 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 15:11:06 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,31 +28,21 @@ class	fraction
 		int			get_gcd();
 		double		get_value();
 		void		reduce();
-		fraction	plus(fraction a);
-		fraction	minus(fraction a);
-		fraction	divide(fraction a);
-		fraction	multiply(fraction a);
+		// fraction	plus(const fraction &nb);
+		// // fraction	plus(fraction &a);
+		// fraction	minus(fraction a);
+		// fraction	divide(fraction a);
+		// fraction	multiply(fraction a);
 
-		fraction	operator+(const double& nb);
-		fraction	operator+(const long& nb);
-		fraction	operator+(const fraction& nb);
-		fraction	operator-(const double& nb);
-		fraction	operator-(const long& nb);
-		fraction	operator-(const fraction& nb);
-		void		operator+=(const double& nb);
-		void		operator+=(const long& nb);
-		void		operator+=(const fraction& nb);
-		void		operator-=(const double& nb);
-		void		operator-=(const long& nb);
-		void		operator-=(const fraction& nb);
-		void		operator/=(const double& nb);
-		void		operator/=(const long& nb);
-		void		operator/=(const fraction& nb);
-		void		operator*=(const double& nb);
-		void		operator*=(const long& nb);
-		void		operator*=(const fraction& nb);
-
-		fraction&	operator=(fraction& other);
+		fraction		operator+=(const fraction& nb);
+		fraction		operator-=(const fraction& nb);
+		fraction		operator*=(const fraction& nb);
+		fraction		operator/=(const fraction& nb);
+		fraction&		operator=(fraction& other);
+		friend fraction	operator+(fraction a, const fraction& b);
+		friend fraction	operator-(fraction a, const fraction& b);
+		friend fraction	operator*(fraction a, const fraction& b);
+		friend fraction	operator/(fraction a, const fraction& b);
 
 		long	numerator;
 		long	denominator;

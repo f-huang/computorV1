@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 13:07:44 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 15:08:43 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,50 +149,89 @@ fraction&	fraction::operator=(fraction& other)
 	this->swap(other);
 	return (*this);
 }
+//
+// fraction	fraction::plus(fraction a, const fraction &b)
+// {
+// 	fraction	ret = fraction(*this);
+//
+// 	if (ret.denominator != a.denominator)
+// 	{
+// 		ret.denominator *= a.denominator;
+// 		ret.numerator *= a.denominator;
+// 		a.denominator *= ret.denominator;
+// 		a.numerator *= ret.denominator;
+// 	}
+// 	ret.numerator += a.numerator;
+// 	ret.reduce();
+// 	return (ret);
+// }
 
-fraction	fraction::plus(fraction a)
+fraction	fraction::operator+=(const fraction& nb)
 {
-	fraction	ret = fraction(a.numerator, a.denominator);
-
-	if (ret.denominator != a.denominator)
+	if (this->denominator != nb.denominator)
 	{
-		ret.denominator *= a.denominator;
-		ret.numerator *= a.denominator;
-		a.denominator *= ret.denominator;
-		a.numerator *= ret.denominator;
+		this->denominator *= nb.denominator;
+		this->numerator *= nb.denominator;
 	}
-	ret.numerator += a.numerator;
-	ret.reduce();
-	return (ret);
+	this->numerator += nb.numerator * this->denominator;
+	this->reduce();
+	return (*this);
 }
 
-fraction	fraction::operator+(const double& nb) { return (plus(fraction(nb))); }
-fraction	fraction::operator+(const long& nb) { return (plus(fraction(nb))); }
-fraction	fraction::operator+(const fraction& nb) { return (plus(nb)); }
-
-fraction	fraction::operator-(const double& nb) { return (minus(fraction(nb))); }
-fraction	fraction::operator-(const long& nb) { return (minus(fraction(nb))); }
-fraction	fraction::operator-(const fraction& nb) { return (minus(nb)); }
-
-void	fraction::operator+=(const double& nb)
+fraction	fraction::operator-=(const fraction& nb)
 {
-	fraction	tmp = plus(fraction(nb));
-	*this = tmp;
+	if (this->denominator != nb.denominator)
+	{
+		this->denominator *= nb.denominator;
+		this->numerator *= nb.denominator;
+	}
+	this->numerator -= nb.numerator * this->denominator;
+	this->reduce();
+	return (*this);
 }
 
 
-void	fraction::operator+=(const long& nb)
+fraction	fraction::operator*=(const fraction& nb)
 {
-	fraction	tmp = plus(fraction(nb));
-	*this = tmp;
+	this->numerator *= nb.numerator;
+	this->denominator *= nb.denominator;
+	this->reduce();
+	return (*this);
 }
 
-void	fraction::operator+=(const fraction& nb)
+fraction	fraction::operator/=(const fraction &nb)
 {
-	fraction	tmp = plus(nb);
-	*this = tmp;
+	this->numerator *= nb.denominator;
+	this->denominator *= nb.numerator;
+	this->reduce();
+	return (*this);
 }
 
+inline fraction	operator+(fraction a, const fraction& b)
+{
+	a += b;
+	return (a);
+}
+
+
+inline fraction	operator-(fraction a, const fraction& b)
+{
+	a -= b;
+	return (a);
+}
+
+inline fraction	operator*(fraction a, const fraction& b)
+{
+	a *= b;
+	return (a);
+}
+
+inline fraction	operator/(fraction a, const fraction& b)
+{
+	a /= b;
+	return (a);
+}
+/*
 fraction	fraction::minus(fraction a)
 {
 	fraction	ret = fraction(a.numerator, a.denominator);
@@ -285,3 +324,4 @@ void	fraction::operator*=(const fraction& nb)
 	fraction	tmp = multiply(nb);
 	*this = tmp;
 }
+*/
