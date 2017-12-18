@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 18:03:10 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 18:35:58 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "equation.h"
 #include "ft_math.h"
 #include "fraction.h"
-#include <regex>
 
 static void	print_solutions(equation equation, int result)
 {

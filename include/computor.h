@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:17:09 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 16:35:25 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 18:36:27 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define RESET "\033[0m"
 
 # define ERROR_FORMAT PROGRAM_NAME": Not well formatted"
-# define ERROR_USAGE  PROGRAM_NAME": illegal arguments\nusage: computor <equation>"
+# define ERROR_USAGE  PROGRAM_NAME": illegal arguments\nusage: computor [-d] <equation>"
 # define ERROR_SOLVING PROGRAM_NAME": Cannot solve"
 
 # define OUTPUT_SOLUTION_NONE "No solution."
