@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:50:12 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/15 11:32:09 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 16:07:59 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class	equation
 		bool	parse();
 		void	do_debug();
 		void	set_variables(std::string str, bool negative, enum e_equation_side side);
+		void	solve_two_solutions(fraction a, fraction b, fraction c);
 		void	set_discriminant();
 
 		std::string	str;

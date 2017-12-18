@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:17:09 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/14 21:51:16 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 16:21:44 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define UNDERLINE "\033[4m"
 # define NO_UNDERLINE "\033[24m"
 # define BOLD "\033[1m"
+# define NO_BOLD "\033[22m"
 # define RESET "\033[0m"
 
 # define ERROR_FORMAT PROGRAM_NAME": Not well formatted"

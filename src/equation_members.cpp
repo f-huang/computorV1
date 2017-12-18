@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:18:58 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 15:12:26 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 15:29:14 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 equation_member::equation_member(fraction& coef, const int power)
 {
-	this->coef = coef;
+	this->coef = fraction(coef);
 	this->power = power;
 	this->next = (equation_member*)0;
 }

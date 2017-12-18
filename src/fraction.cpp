@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 15:13:32 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 16:11:36 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,19 @@ fraction::fraction(std::string str)
 		throw std::string(EXCEPTION_PARAMETERS);
 }
 
+std::string	fraction::to_string()
+{
+	std::string	ret;
+
+	ret = std::to_string(this->numerator);
+	if (this->denominator < 0 || this->denominator > 1)
+	{
+		ret += " / ";
+		ret += std::to_string(this->denominator);
+	}
+	return (ret);
+}
+
 int		fraction::get_gcd()
 {
 	return (ft_math::gcd(numerator, denominator));
@@ -125,7 +138,6 @@ void	fraction::reduce()
 		gcd = 1;
 	numerator = numerator / gcd;
 	denominator = denominator / gcd;
-
 	if (numerator < 0 && denominator < 0)
 	{
 		numerator *= -1;
@@ -133,7 +145,7 @@ void	fraction::reduce()
 	}
 	else if (numerator < 0 || denominator < 0)
 	{
-		numerator = -(ft_math::abs(denominator));
+		numerator = -(ft_math::abs(numerator));
 		denominator = ft_math::abs(denominator);
 	}
 }
@@ -144,9 +156,10 @@ void	fraction::swap(fraction& other)
 	std::swap(this->denominator, other.denominator);
 }
 
-fraction&	fraction::operator=(fraction& other)
+fraction&	fraction::operator=(fraction other)
 {
-	this->swap(other);
+	this->numerator = other.numerator;
+	this->denominator = other.denominator;
 	return (*this);
 }
 
@@ -174,6 +187,13 @@ fraction	fraction::operator-=(const fraction& nb)
 	return (*this);
 }
 
+fraction&	fraction::operator-()
+{
+	this->numerator *= -1;
+	this->reduce();
+	return (*this);
+}
+
 
 fraction	fraction::operator*=(const fraction& nb)
 {
@@ -189,29 +209,4 @@ fraction	fraction::operator/=(const fraction &nb)
 	this->denominator *= nb.numerator;
 	this->reduce();
 	return (*this);
-}
-
-inline fraction	operator+(fraction a, const fraction& b)
-{
-	a += b;
-	return (a);
-}
-
-
-inline fraction	operator-(fraction a, const fraction& b)
-{
-	a -= b;
-	return (a);
-}
-
-inline fraction	operator*(fraction a, const fraction& b)
-{
-	a *= b;
-	return (a);
-}
-
-inline fraction	operator/(fraction a, const fraction& b)
-{
-	a /= b;
-	return (a);
 }
