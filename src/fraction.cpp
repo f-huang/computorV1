@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 19:21:10 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 19:50:47 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	fraction::reduce()
 		numerator *= -1;
 		denominator *= -1;
 	}
-	else if (numerator < 0 || denominator < 0)
+	else if (numerator < 1 || denominator < 0)
 	{
 		numerator = -(ft_math::abs(numerator));
 		denominator = ft_math::abs(denominator);
