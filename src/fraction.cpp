@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 18:26:08 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 19:21:10 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ double	fraction::get_value()
 {
 	if (denominator == 0)
 		throw std::string(EXCEPTION_PARAMETERS);
-	return (numerator ? numerator / denominator : 0.0);
+	return (numerator ? (double)numerator / (double)denominator : 0.0);
 }
 
 void	fraction::reduce()

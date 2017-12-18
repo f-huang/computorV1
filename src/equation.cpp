@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 18:30:39 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/18 19:23:14 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ bool	equation::is_correct()
 void	equation::solve_two_solutions(fraction a, fraction b, fraction c)
 {
 	double		sqrt_value = ft_math::sqrt(ft_math::abs(discriminant));
-	std::string	delta = std::to_string(ft_math::abs(discriminant));
+	std::string	delta = ft_math::double_to_string(ft_math::abs(discriminant), 2);
 	fraction	bot(2 * a);
 	fraction	top_left(-b);
 	fraction	left = top_left / bot;
@@ -268,7 +268,7 @@ std::string		equation::get_reduced_form()
 		ret += "0";
 	while (iterator)
 	{
-		abs_coef = ft_math::abs((double)iterator->coef.get_value());
+		abs_coef = ft_math::abs(iterator->coef.get_value());
 		if (!ret.length())
 		{
 			if (iterator->coef.get_value() < 0)
