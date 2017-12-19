@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/19 12:55:47 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 18:13:16 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 #define DEBUG_DELTA "∆ = b² - 4ac"
 #define DEBUG_FIRST_DEGREE "\tx = "UNDERLINE"-c\n\t"NO_UNDERLINE"     b"
 #define DEBUG_X "\tx1 = "UNDERLINE"-b - √∆"NO_UNDERLINE"    x2 = "UNDERLINE"-b + √∆"NO_UNDERLINE"\n\t        2a             2a"
+#define DEBUG_X0 "\tx = "UNDERLINE"-b"NO_UNDERLINE"\n\t    2a"
 #define DEBUG_CANNOT_SOLVE_DEGREE "Only solve equations of degree 0, 1 or 2."
 #define DEBUG_ERROR "Encountered an error."
 #define DEBUG_NO_SOLUTION "No solution possible."
@@ -75,11 +76,12 @@ void	equation::do_debug()
 		"\t"DEBUG_DELTA << std::endl <<
 		"\t∆ = " << b.to_string() << "² - 4 * " << a.to_string() << " * " << c.to_string() << std::endl <<
 		"\t∆ = " << (b * b).to_string() << " - " << ((4 * a) * c).to_string() << " = "BOLD << discriminant << NO_BOLD << std::endl <<
-		"And:\n"DEBUG_X << std::endl <<
+		"And:\n" << (discriminant != 0 ? DEBUG_X : DEBUG_X0) << std::endl <<
 		"So:\n\tx1 = "UNDERLINE"-" << b.to_string() << " - √" << discriminant << NO_UNDERLINE <<
-		"\n\t      2 * " << a.to_string() << std::endl <<
-		"\tx2 = "UNDERLINE"-" << b.to_string() << " + √" << discriminant << NO_UNDERLINE <<
 		"\n\t      2 * " << a.to_string() << std::endl;
+		if (discriminant != 0)
+			std::cout << "\tx2 = "UNDERLINE"-" << b.to_string() << " + √" << discriminant << NO_UNDERLINE <<
+			"\n\t      2 * " << a.to_string() << std::endl;
 	}
 	else if (degree == 1)
 	{
@@ -114,7 +116,7 @@ static void	find_power(std::string str, int *power)
 	}
 }
 
-void	equation::set_variables(std::string str, bool negative, enum e_equation_side side)
+bool	equation::set_variables(std::string str, bool negative, enum e_equation_side side)
 {
 	std::regex	contains_x(PATTERN_CONTAINS_X);
 	std::regex	is_no_degree(PATTERN_NO_DEGREE);
@@ -135,12 +137,12 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 	{
 		if (str.front() == '-' && !std::isdigit(str[1]))
 			nb = -1.0;
-		else if (
-			((!std::isdigit(str.front()) && std::isdigit(str[1])) || std::isdigit(str.front()))
-			&& (nb = std::stod(str)) == 0.0
-		)
-			return ;
+		else if (((!std::isdigit(str.front()) && std::isdigit(str[1])) ||
+			std::isdigit(str.front())) && (nb = std::stod(str)) == 0.0)
+			return (true);
 	}
+	if (nb > 2147483647 || nb < -2147483648)
+		return (false);
 	if (negative)
 		nb *= -1;
 	if (side == RIGHT)
@@ -148,6 +150,7 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 	find_power(str, &power);
 	fraction tmp = fraction(nb);
 	members.add(tmp, power);
+	return (true);
 }
 
 bool	equation::parse()
@@ -165,7 +168,8 @@ bool	equation::parse()
 	side = LEFT;
 	while (iterator != end)
 	{
-		set_variables(iterator->str(), negative, side);
+		if (!set_variables(iterator->str(), negative, side))
+			return (false);
 		switch (iterator->str().back())
 		{
 			case '=' :
@@ -186,7 +190,8 @@ bool	equation::parse()
 	}
 	members.clean();
 	degree = members.get_biggest_power();
-	return (str.back() != '-' && str.back() != '+' && str.back() != '=' && len == str.length());
+	return (str.back() != '-' && str.back() != '+' && str.back() != '=' &&
+		len == str.length());
 }
 
 bool	equation::is_correct()
@@ -232,6 +237,20 @@ void	equation::solve_two_solutions(fraction a, fraction b, fraction c)
 	x1 = (top_left - f_sqrt) / bot;
 }
 
+bool	equation::is_overflowing()
+{
+	double	a = members.get_coef(2).get_value();
+	double	b = members.get_coef(1).get_value();
+	double	c = members.get_coef(0).get_value();
+	double	tmp = 4 * a * c;
+
+	return (
+		b > 46430 || b < -46430 ||
+		tmp > 2147483647 ||
+		tmp < -2147483648
+	);
+}
+
 int		equation::solve()
 {
 	int			ret;
@@ -239,6 +258,8 @@ int		equation::solve()
 	fraction	b = members.get_coef(1);
 	fraction	c = members.get_coef(0);
 
+	if (is_overflowing())
+		return (SOLUTION_OVERFLOW);
 	switch (degree)
 	{
 		case 0:

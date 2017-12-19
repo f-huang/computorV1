@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:17:09 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 18:36:27 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 16:36:30 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define SOLUTION_TWO 2
 # define SOLUTION_CANNOT_SOLVE_DEGREE 124
 # define SOLUTION_INFINITE 125
+# define SOLUTION_OVERFLOW 126
 
 # define UNDERLINE "\033[4m"
 # define NO_UNDERLINE "\033[24m"
@@ -39,6 +40,7 @@
 # define OUTPUT_SOLUTION_TWO ", the two solutions are: \n"
 # define OUTPUT_SOLUTION_INFINITE "Infinite solutions."
 # define OUTPUT_SOLUTION_CANNOT_SOLVE_DEGREE "The polynomial degree is stricly greater than 2, I can't solve."
+# define OUTPUT_OVERFLOW "Overflow encountered."
 
 #define DEBUG_TITLE BOLD "DEBUGGING"RESET
 #define RESULTS_TITLE BOLD "RESULTS"RESET
