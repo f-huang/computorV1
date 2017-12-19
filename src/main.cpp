@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 18:35:58 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 12:59:15 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,19 @@
 
 static void	print_solutions(equation equation, int result)
 {
-	std::cout << "x1 = " << equation.x1 << std::endl;
+	double	tmp;
+
+	tmp = equation.x1.get_value();
+	std::cout << "x1 = " << equation.s_x1
+	<< (equation.s_x1.find('/') != std::string::npos ? " = " + ft_math::double_to_string(tmp, -1) : "")
+	<< std::endl;
+	tmp = equation.x2.get_value();
 	if (result == SOLUTION_TWO)
-		std::cout << "x2 = " << equation.x2 << std::endl;
+	{
+		std::cout << "x2 = " << equation.s_x2
+		<< (equation.s_x2.find('/') != std::string::npos ? " = " + ft_math::double_to_string(tmp, -1) : "")
+		<< std::endl;
+	}
 }
 
 static void	print_results(equation equation, int result)
@@ -73,7 +83,7 @@ int		main(int ac, char **av)
 
 	if (ac != 2)
 	{
-		if (strcmp(av[1], "-d"))
+		if (!av[1] || strcmp(av[1], "-d"))
 		{
 			std::cerr << ERROR_USAGE << std::endl;
 			return (1);
@@ -83,7 +93,6 @@ int		main(int ac, char **av)
 	}
 
 	equation	equation(debug ? av[2] : av[1], debug);
-
 	if (!equation.is_correct())
 	{
 		std::cerr << ERROR_FORMAT << std::endl;

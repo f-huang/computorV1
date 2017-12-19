@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/19 10:53:47 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 12:55:47 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ equation::equation(const char *av, bool debug = false)
 	end = std::remove(str.begin(), str.end(), ' ');
 	str.erase(end, str.end());
 	this->debug = debug;
-	x1 = "";
-	x2 = "";
+	s_x1 = "";
+	s_x1 = "";
 	degree = 0;
 	discriminant = UNDEFINED;
 }
@@ -135,7 +135,10 @@ void	equation::set_variables(std::string str, bool negative, enum e_equation_sid
 	{
 		if (str.front() == '-' && !std::isdigit(str[1]))
 			nb = -1.0;
-		else if (((!std::isdigit(str.front()) && std::isdigit(str[1])) || std::isdigit(str.front())) && (nb = std::stod(str)) == 0.0)
+		else if (
+			((!std::isdigit(str.front()) && std::isdigit(str[1])) || std::isdigit(str.front()))
+			&& (nb = std::stod(str)) == 0.0
+		)
 			return ;
 	}
 	if (negative)
@@ -169,6 +172,7 @@ bool	equation::parse()
 				if (side == RIGHT)
 					return (false);
 				side = RIGHT;
+				negative = false;
 				break ;
 			case '-' :
 				negative = true;
@@ -198,28 +202,34 @@ void	equation::solve_two_solutions(fraction a, fraction b, fraction c)
 {
 	double		sqrt_value = ft_math::sqrt(ft_math::abs(discriminant));
 	std::string	delta = ft_math::double_to_string(ft_math::abs(discriminant), 2);
+	fraction	f_sqrt(sqrt_value);
 	fraction	bot(2 * a);
 	fraction	top_left(-b);
 	fraction	left = top_left / bot;
 
 	if (ft_math::remainder(sqrt_value, 1.0) == 0.0)
 	{
-		x1 = ((top_left - fraction(sqrt_value)) / (bot)).to_string() + (discriminant < 0 ? "i" : "");
-		x2 = ((top_left + fraction(sqrt_value)) / (bot)).to_string() + (discriminant < 0 ? "i" : "");
+		s_x1 = ((top_left - fraction(sqrt_value)) / (bot)).to_string() + (discriminant < 0 ? "i" : "");
+		s_x2 = ((top_left + fraction(sqrt_value)) / (bot)).to_string() + (discriminant < 0 ? "i" : "");
 	}
 	else
 	{
+		std::string	str_bot = bot.to_string();
+		if (str_bot.find('/') != std::string::npos)
+			str_bot = "(" + str_bot + ")";
 		if (left.denominator != bot.get_value())
 		{
-			x1 = (top_left / bot).to_string() + " - " + (discriminant < 0 ? "i" : "") + "√" + delta + " / " + (bot).to_string();
-			x2 = (top_left / bot).to_string() + " + " + (discriminant < 0 ? "i" : "") + "√" + delta + " / " + (bot).to_string();
+			s_x1 = (top_left / bot).to_string() + " - " + (discriminant < 0 ? "i" : "") + "√" + delta + " / " + str_bot;
+			s_x2 = (top_left / bot).to_string() + " + " + (discriminant < 0 ? "i" : "") + "√" + delta + " / " + str_bot;
 		}
 		else
 		{
-			x1 = "(" + std::to_string(top_left.numerator) + " - " + (discriminant < 0 ? "i" : "") + "√" + delta + ") / " + (bot).to_string();
-			x2 = "(" + std::to_string(top_left.numerator) + " + " + (discriminant < 0 ? "i" : "") + "√" + delta + ") / " + (bot).to_string();
+			s_x1 = "(" + std::to_string(top_left.numerator) + " - " + (discriminant < 0 ? "i" : "") + "√" + delta + ") / " + str_bot;
+			s_x2 = "(" + std::to_string(top_left.numerator) + " + " + (discriminant < 0 ? "i" : "") + "√" + delta + ") / " + str_bot;
 		}
 	}
+	x2 = (top_left + f_sqrt) / bot;
+	x1 = (top_left - f_sqrt) / bot;
 }
 
 int		equation::solve()
@@ -235,7 +245,8 @@ int		equation::solve()
 			ret = solve_degree_zero(str, c.get_value());
 			break ;
 		case 1:
-			x1 = (-c / b).to_string();
+			x1 = -c / b;
+			s_x1 = x1.to_string();
 			ret = SOLUTION_ONE;
 			break ;
 		case 2:
@@ -247,7 +258,8 @@ int		equation::solve()
 			}
 			else
 			{
-				x1 = (-b / (2 * a)).to_string();
+				x1 = (-b / (2 *a));
+				s_x1 = x1.to_string();
 				ret = SOLUTION_ONE;
 			}
 			break ;

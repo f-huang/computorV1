@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 11:35:39 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 19:50:47 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 12:45:53 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	fraction::init_fraction(long numerator, long denominator)
 		gcd = 1;
 	this->numerator = (numerator * neg) / gcd;
 	this->denominator = (denominator * neg) / gcd;
-	// std::cout << this->numerator <<  "/" << this->denominator << std::endl;
 }
 
 void	fraction::init_fraction_double(double numerator, double denominator)
@@ -74,7 +73,8 @@ fraction::fraction()
 
 fraction::fraction(double numerator)
 {
-	init_fraction_double(numerator, 1.0);
+	numerator = (double)ft_math::floor(numerator * 10000) / (double)10000.0;
+	init_fraction_double(numerator, 1.00);
 }
 
 fraction::fraction(long numerator)
@@ -107,8 +107,12 @@ fraction::fraction(std::string str)
 
 std::string	fraction::to_string()
 {
+	double		tmp;
 	std::string	ret;
 
+	tmp = this->get_value();
+	if (ft_math::count_precision(tmp) <= 4)
+		return (ft_math::double_to_string(tmp, ft_math::count_precision(tmp)));
 	ret = std::to_string(this->numerator);
 	if (this->numerator && (this->denominator < 0 || this->denominator > 1))
 	{
@@ -166,24 +170,34 @@ fraction&	fraction::operator=(fraction other)
 
 fraction	fraction::operator+=(const fraction& nb)
 {
+	long	tmp;
+
 	if (this->denominator != nb.denominator)
 	{
+		tmp = nb.numerator * this->denominator;
 		this->denominator *= nb.denominator;
 		this->numerator *= nb.denominator;
 	}
-	this->numerator += nb.numerator * this->denominator;
+	else
+		tmp = nb.numerator;
+	this->numerator += tmp;
 	this->reduce();
 	return (*this);
 }
 
 fraction	fraction::operator-=(const fraction& nb)
 {
+	long	tmp;
+
 	if (this->denominator != nb.denominator)
 	{
+		tmp = nb.numerator * this->denominator;
 		this->denominator *= nb.denominator;
 		this->numerator *= nb.denominator;
 	}
-	this->numerator -= nb.numerator * this->denominator;
+	else
+		tmp = nb.numerator;
+	this->numerator -= tmp;
 	this->reduce();
 	return (*this);
 }

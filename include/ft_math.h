@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:56 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 17:58:52 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 11:46:40 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class	ft_math
 
 		static double		sqrt(double nb);
 		static double		abs(double nb);
+		static double		floor(double nb);
 		static double		fmod(double a, double b);
 		static double		remainder(double a, double b);
 		static double		calculate_discriminant(double a, double b, double c);

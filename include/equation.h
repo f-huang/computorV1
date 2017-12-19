@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:50:12 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 19:18:18 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 11:27:55 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ class	equation
 		std::string		get_reduced_form();
 
 		equation_members	members;
-		std::string		x1;
-		std::string		x2;
+		std::string		s_x1;
+		std::string		s_x2;
+		fraction		x1;
+		fraction		x2;
 		bool			debug;
 		double			discriminant;
 		int				degree;

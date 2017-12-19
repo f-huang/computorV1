@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/12 16:21:29 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 19:21:29 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 12:38:52 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ double	ft_math::abs(double nb)
 long	ft_math::abs(long nb)
 {
 	return (nb >= 0 ? nb : (nb * -1L));
+}
+
+double	ft_math::floor(double nb)
+{
+	return ((long)nb);
 }
 
 double	ft_math::fmod(double a, double b)
@@ -90,6 +95,8 @@ std::string	ft_math::double_to_string(double nb, int precision = 2)
 	std::string	tmp;
 	int			pos;
 
+	if (precision < 0)
+		precision = count_precision(nb);
 	if (equals(remainder(nb, 1), 0.0))
 		return (std::to_string((int)nb));
 	tmp = std::to_string(nb);
@@ -102,7 +109,7 @@ int		ft_math::count_precision(double nb)
 	int		ret = 0;
 
 	nb = abs(nb);
-	while (!equals(remainder(nb, 1), 0.0))
+	while (ret < 10 && !equals(remainder(nb, 1), 0.0))
 	{
 		nb *= 10;
 		ret++;
