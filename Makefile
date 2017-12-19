@@ -6,7 +6,7 @@
 #    By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/04/16 23:26:49 by fhuang            #+#    #+#              #
-#    Updated: 2017/12/15 11:57:02 by fhuang           ###   ########.fr        #
+#    Updated: 2017/12/19 19:07:24 by fhuang           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,34 +46,33 @@ WHITE		= "\033[0;37m"
 # ====================
 
 .PHONY: all norme clean fclean re
-.SILENT:
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $@ $(INC)
-	printf $(BLUE)" $@ compiled!\n"$(EOC)
+	@$(CC) $(CFLAGS) $(OBJ) -o $@ $(INC)
+	@printf $(BLUE)" $@ compiled!\n"$(EOC)
 
 $(OBJDIR)%.o: $(SRCDIR)%.cpp $(CACHEF)
-	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
-	printf $(BLUE)"|"$(EOC)
+	@$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+	@printf $(BLUE)"|"$(EOC)
 
 $(CACHEF):
-	test -d $(OBJDIR) || mkdir $(OBJDIR)
-	test -d $(CACHEF) || touch $(CACHEF)
+	@test -d $(OBJDIR) || mkdir $(OBJDIR)
+	@test -d $(CACHEF) || touch $(CACHEF)
 
 %.c:
-	printf $(RED)"Missing file : $@\n"$(EOC)
+	@printf $(RED)"Missing file : $@\n"$(EOC)
 
 norme:
-	norminette $(SRCDIR) $(INCDIR) | grep -v Norme -B1 || true
+	@norminette $(SRCDIR) $(INCDIR) | grep -v Norme -B1 || true
 
 clean:
-	rm -rf $(OBJDIR) $(CACHEF)
-	printf $(YELLOW)"All objects removed\n"$(EOC)
+	@rm -rf $(OBJDIR) $(CACHEF)
+	@printf $(YELLOW)"All objects removed\n"$(EOC)
 
 fclean: clean
-	rm -f $(NAME)
-	printf $(RED)"$(NAME) removed\n"$(EOC)
+	@rm -f $(NAME)
+	@printf $(RED)"$(NAME) removed\n"$(EOC)
 
 re: fclean all
