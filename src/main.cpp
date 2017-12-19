@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/19 14:05:19 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 16:36:53 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ static void	print_results(equation equation, int result)
 			break ;
 		case SOLUTION_CANNOT_SOLVE_DEGREE :
 			std::cout << OUTPUT_SOLUTION_CANNOT_SOLVE_DEGREE << std::endl;
+			break ;
+		case SOLUTION_OVERFLOW :
+			std::cout << OUTPUT_OVERFLOW << std::endl;
 			break ;
 	}
 }
