@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 16:47:53 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/18 19:23:14 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 10:53:47 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ bool	equation::parse()
 		switch (iterator->str().back())
 		{
 			case '=' :
+				if (side == RIGHT)
+					return (false);
 				side = RIGHT;
 				break ;
 			case '-' :
@@ -180,7 +182,7 @@ bool	equation::parse()
 	}
 	members.clean();
 	degree = members.get_biggest_power();
-	return (len == str.length());
+	return (str.back() != '-' && str.back() != '+' && str.back() != '=' && len == str.length());
 }
 
 bool	equation::is_correct()
