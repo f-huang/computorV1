@@ -6,7 +6,7 @@
 /*   By: fhuang <fhuang@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/27 14:01:05 by fhuang            #+#    #+#             */
-/*   Updated: 2017/12/19 12:59:15 by fhuang           ###   ########.fr       */
+/*   Updated: 2017/12/19 14:05:19 by fhuang           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static void	print_solutions(equation equation, int result)
 
 	tmp = equation.x1.get_value();
 	std::cout << "x1 = " << equation.s_x1
-	<< (equation.s_x1.find('/') != std::string::npos ? " = " + ft_math::double_to_string(tmp, -1) : "")
+	<< (equation.s_x1.find('/') != std::string::npos ? " = " + ft_math::double_to_string(tmp, -1) + (equation.discriminant<0 ? "i" : ""): "")
 	<< std::endl;
 	tmp = equation.x2.get_value();
 	if (result == SOLUTION_TWO)
 	{
 		std::cout << "x2 = " << equation.s_x2
-		<< (equation.s_x2.find('/') != std::string::npos ? " = " + ft_math::double_to_string(tmp, -1) : "")
+		<< (equation.s_x2.find('/') != std::string::npos ? " = " + ft_math::double_to_string(tmp, -1) + (equation.discriminant<0 ? "i" : ""): "")
 		<< std::endl;
 	}
 }
